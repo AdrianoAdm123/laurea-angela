@@ -1,608 +1,704 @@
-<!DOCTYPE html>
+html = r'''<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Laurea di Angela Mazzella 🎓</title>
+<meta name="description" content="Un piccolo ricordo della laurea di Angela Mazzella">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-* {
-    box-sizing: border-box;
+:root{
+    --rosso:#8b1e2d;
+    --rosso2:#b83246;
+    --oro:#c5a253;
+    --oro2:#e7cf92;
+    --avorio:#fbf7ef;
+    --avorio2:#efe2c7;
+    --testo:#2d2325;
+    --muted:#756064;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-}
+*{box-sizing:border-box}
 
-body {
-    font-family: "Inter", sans-serif;
-    color: #302426;
+html{scroll-behavior:smooth}
+
+body{
+    margin:0;
+    font-family:"Inter",sans-serif;
+    color:var(--testo);
     background:
-        radial-gradient(circle at top, #fffdf8 0%, #faf4e8 45%, #eee0c5 100%);
-    min-height: 100vh;
-    overflow-x: hidden;
+        radial-gradient(circle at top, #fffdf8 0%, var(--avorio) 42%, var(--avorio2) 100%);
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
+body.intro-open{overflow:hidden}
 
-/* =========================
-   CORIANDOLI
-========================= */
-
-#confetti-layer {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-    overflow: hidden;
+/* INTRO */
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:
+        radial-gradient(circle at center, rgba(181,35,50,.18), transparent 45%),
+        linear-gradient(145deg,#fbf7ef,#f3e7cf);
+    transition:opacity .9s ease, visibility .9s ease;
 }
 
-.confetti {
-    position: absolute;
-    top: -30px;
-    width: 10px;
-    height: 18px;
-    opacity: 0.95;
-
-    animation:
-        fall linear forwards,
-        spin 1s linear infinite;
+.intro.hide{
+    opacity:0;
+    visibility:hidden;
 }
 
-@keyframes fall {
-    from {
-        transform: translateY(-30px);
-    }
-
-    to {
-        transform: translateY(110vh);
-    }
+.intro-inner{
+    text-align:center;
+    max-width:620px;
+    animation:introIn 1s ease both;
 }
 
-@keyframes spin {
-    from {
-        rotate: 0deg;
-    }
-
-    to {
-        rotate: 360deg;
-    }
+.intro-laurel{
+    font-size:50px;
+    letter-spacing:8px;
+    margin-bottom:18px;
 }
 
-
-/* =========================
-   PAGINA
-========================= */
-
-.page {
-    width: 100%;
-    max-width: 850px;
-    margin: auto;
-    padding: 35px 18px 60px;
+.intro-date{
+    color:var(--rosso);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-weight:700;
+    font-size:13px;
 }
 
-
-/* =========================
-   TESTATA
-========================= */
-
-.hero {
-    text-align: center;
-    padding: 30px 10px 20px;
+.intro h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(44px,8vw,82px);
+    line-height:.95;
+    margin:16px 0 14px;
+    color:var(--rosso);
 }
 
-.graduation-cap {
-    font-size: 54px;
-    margin-bottom: 12px;
-
-    animation: appear 0.8s ease;
+.intro p{
+    margin:0;
+    color:var(--muted);
+    font-size:17px;
 }
 
-.badge {
-    display: inline-block;
-
-    background: rgba(139, 30, 45, 0.08);
-
-    border: 1px solid rgba(139, 30, 45, 0.25);
-
-    border-radius: 100px;
-
-    padding: 9px 17px;
-
-    color: #8b1e2d;
-
-    font-weight: 700;
-
-    font-size: 14px;
-
-    margin-bottom: 20px;
+@keyframes introIn{
+    from{opacity:0;transform:translateY(18px) scale(.98)}
+    to{opacity:1;transform:translateY(0) scale(1)}
 }
 
-h1 {
-    font-family: "Playfair Display", serif;
-
-    color: #8b1e2d;
-
-    font-size: clamp(43px, 8vw, 72px);
-
-    line-height: 1;
-
-    margin: 0;
+/* CORIANDOLI */
+#confetti-layer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9999;
+    overflow:hidden;
 }
 
-.subtitle {
-    margin-top: 16px;
-
-    font-size: 19px;
-
-    color: #665356;
+.confetti{
+    position:absolute;
+    top:-24px;
+    border-radius:2px;
+    opacity:.95;
+    animation:fall linear forwards, spin .85s linear infinite;
 }
 
-
-/* =========================
-   DECORAZIONE
-========================= */
-
-.ornament {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-
-    margin: 25px auto;
+@keyframes fall{
+    to{transform:translateY(115vh)}
 }
 
-.ornament-line {
-    width: 65px;
-    height: 1px;
-
-    background: #c5a253;
+@keyframes spin{
+    to{rotate:360deg}
 }
 
-.ornament-symbol {
-    color: #c5a253;
-    font-size: 19px;
+/* PAGINA */
+.page{
+    width:100%;
+    max-width:900px;
+    margin:0 auto;
+    padding:34px 18px 64px;
 }
 
-
-/* =========================
-   FOTO
-========================= */
-
-.photo-card {
-    max-width: 510px;
-
-    margin: 20px auto 35px;
-
-    padding: 11px;
-
-    background: white;
-
-    border-radius: 27px;
-
-    border: 2px solid #c5a253;
-
-    box-shadow: 0 18px 55px rgba(90, 35, 45, 0.18);
-
-    animation: appear 1s ease;
+.hero{
+    text-align:center;
+    padding:34px 12px 20px;
 }
 
-.photo-card img {
-    width: 100%;
-
-    display: block;
-
-    aspect-ratio: 4 / 5;
-
-    object-fit: cover;
-
-    border-radius: 19px;
+.hero-symbol{
+    font-size:54px;
+    margin-bottom:12px;
+    animation:float 3s ease-in-out infinite;
 }
 
-
-/* =========================
-   CARD PRINCIPALE
-========================= */
-
-.main-card {
-    text-align: center;
-
-    padding: 35px 25px;
-
-    background: rgba(255, 255, 255, 0.78);
-
-    border-radius: 28px;
-
-    border: 1px solid rgba(197, 162, 83, 0.55);
-
-    box-shadow: 0 15px 45px rgba(90, 35, 45, 0.10);
+@keyframes float{
+    50%{transform:translateY(-5px)}
 }
 
-.main-card h2 {
-    font-family: "Playfair Display", serif;
-
-    font-size: 37px;
-
-    color: #8b1e2d;
-
-    margin: 0 0 20px;
+.badge{
+    display:inline-block;
+    padding:9px 17px;
+    border:1px solid rgba(139,30,45,.24);
+    border-radius:999px;
+    background:rgba(139,30,45,.07);
+    color:var(--rosso);
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:18px;
 }
 
-.description {
-    font-size: 17px;
-
-    line-height: 1.7;
-
-    max-width: 600px;
-
-    margin: auto;
-
-    color: #514245;
+h1{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(48px,8vw,82px);
+    line-height:.95;
+    margin:0;
+    color:var(--rosso);
 }
 
-
-/* DATA */
-
-.date {
-    display: inline-block;
-
-    margin: 25px 0;
-
-    padding: 11px 22px;
-
-    border-radius: 100px;
-
-    background: #8b1e2d;
-
-    color: white;
-
-    font-size: 21px;
-
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-
-    box-shadow: 0 7px 20px rgba(139, 30, 45, 0.25);
+.subtitle{
+    margin:14px 0 0;
+    color:var(--muted);
+    font-size:18px;
 }
 
-
-/* TITOLO DI STUDIO */
-
-.degree {
-    font-size: 18px;
-
-    line-height: 1.7;
+.ornament{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:11px;
+    margin:24px 0 10px;
 }
 
-.degree strong {
-    color: #8b1e2d;
+.ornament span:first-child,
+.ornament span:last-child{
+    width:68px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--oro));
 }
 
-
-/* SEPARATORE */
-
-.divider {
-    width: 120px;
-
-    height: 3px;
-
-    border-radius: 100px;
-
-    margin: 30px auto;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #c5a253,
-        #8b1e2d,
-        #c5a253,
-        transparent
-    );
+.ornament span:last-child{
+    background:linear-gradient(90deg,var(--oro),transparent);
 }
 
-
-/* FRASE */
-
-.quote {
-    font-family: "Playfair Display", serif;
-
-    color: #8b1e2d;
-
-    font-size: 25px;
-
-    line-height: 1.5;
-
-    max-width: 600px;
-
-    margin: auto;
+.ornament b{
+    color:var(--oro);
+    font-size:18px;
 }
 
+/* CONTATORE */
+.counter-card{
+    max-width:620px;
+    margin:20px auto 32px;
+    padding:20px;
+    text-align:center;
+    border:1px solid rgba(197,162,83,.48);
+    border-radius:22px;
+    background:rgba(255,255,255,.62);
+    box-shadow:0 12px 34px rgba(87,43,48,.08);
+}
+
+.counter-label{
+    color:var(--muted);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:1.8px;
+    font-weight:700;
+}
+
+.counter-value{
+    margin-top:7px;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:clamp(28px,6vw,46px);
+    line-height:1.05;
+}
+
+/* FOTO PRINCIPALE */
+.photo-card{
+    margin:0 auto 36px;
+    max-width:520px;
+    padding:11px;
+    border-radius:28px;
+    background:white;
+    border:2px solid var(--oro);
+    box-shadow:0 22px 58px rgba(91,37,47,.18);
+}
+
+.photo-card img{
+    width:100%;
+    display:block;
+    border-radius:19px;
+    aspect-ratio:4/5;
+    object-fit:cover;
+}
+
+/* CARD PRINCIPALE */
+.main-card{
+    text-align:center;
+    padding:38px 26px;
+    border-radius:28px;
+    background:rgba(255,255,255,.76);
+    border:1px solid rgba(197,162,83,.52);
+    box-shadow:0 16px 46px rgba(91,37,47,.09);
+    backdrop-filter:blur(8px);
+}
+
+.main-card h2{
+    margin:0 0 18px;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:clamp(36px,7vw,50px);
+}
+
+.description{
+    max-width:630px;
+    margin:0 auto;
+    color:#55464a;
+    font-size:17px;
+    line-height:1.75;
+}
+
+.date{
+    display:inline-block;
+    margin:24px 0;
+    padding:11px 21px;
+    border-radius:999px;
+    background:var(--rosso);
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:1.4px;
+    box-shadow:0 8px 22px rgba(139,30,45,.24);
+}
+
+.degree{
+    font-size:18px;
+    line-height:1.7;
+}
+
+.degree strong{color:var(--rosso)}
+
+.divider{
+    width:120px;
+    height:3px;
+    margin:30px auto;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,var(--oro),var(--rosso),var(--oro),transparent);
+}
+
+.quote{
+    max-width:620px;
+    margin:0 auto;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:28px;
+    line-height:1.35;
+}
+
+/* SEZIONE TRAGUARDO */
+.milestone{
+    margin-top:34px;
+    padding:34px 24px;
+    text-align:center;
+    border-radius:28px;
+    background:linear-gradient(145deg,rgba(139,30,45,.96),rgba(111,18,32,.96));
+    color:white;
+    box-shadow:0 18px 46px rgba(91,37,47,.18);
+}
+
+.milestone .mini{
+    color:var(--oro2);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.milestone h3{
+    margin:10px auto 12px;
+    max-width:700px;
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(34px,6vw,50px);
+    line-height:1;
+}
+
+.milestone p{
+    max-width:650px;
+    margin:0 auto;
+    color:#f7e9eb;
+    line-height:1.7;
+}
+
+/* GALLERIA */
+.gallery-section{
+    margin-top:38px;
+}
+
+.section-title{
+    text-align:center;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:36px;
+    margin:0 0 18px;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.gallery-item{
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    background:rgba(255,255,255,.65);
+    border:1px solid rgba(197,162,83,.42);
+    min-height:170px;
+    box-shadow:0 10px 28px rgba(90,35,45,.08);
+}
+
+.gallery-item img{
+    width:100%;
+    height:100%;
+    min-height:170px;
+    object-fit:cover;
+    display:block;
+}
+
+.gallery-placeholder{
+    min-height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    color:var(--muted);
+    font-size:14px;
+}
 
 /* SEGRETO NFC */
-
-.secret {
-    margin-top: 32px;
-
-    padding: 18px;
-
-    background: rgba(139, 30, 45, 0.055);
-
-    border-radius: 18px;
-
-    color: #725c60;
-
-    font-size: 14px;
-
-    line-height: 1.6;
+.secret{
+    margin-top:36px;
+    text-align:center;
+    padding:28px 22px;
+    border-radius:24px;
+    border:1px dashed rgba(139,30,45,.38);
+    background:rgba(139,30,45,.055);
 }
 
-
-/* FOOTER */
-
-footer {
-    text-align: center;
-
-    margin-top: 40px;
-
-    color: #766265;
-
-    font-size: 14px;
+.secret strong{
+    display:block;
+    margin-bottom:8px;
+    color:var(--rosso);
+    font-family:"Cormorant Garamond",serif;
+    font-size:28px;
 }
 
-
-@keyframes appear {
-
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.secret p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.65;
 }
 
-
-/* =========================
-   TELEFONO
-========================= */
-
-@media (max-width: 600px) {
-
-    .page {
-        padding: 20px 14px 45px;
-    }
-
-    .hero {
-        padding-top: 25px;
-    }
-
-    .graduation-cap {
-        font-size: 46px;
-    }
-
-    .subtitle {
-        font-size: 16px;
-    }
-
-    .main-card {
-        padding: 28px 18px;
-    }
-
-    .main-card h2 {
-        font-size: 31px;
-    }
-
-    .description {
-        font-size: 16px;
-    }
-
-    .quote {
-        font-size: 22px;
-    }
-
+/* SIGILLO */
+.seal-wrap{
+    display:flex;
+    justify-content:center;
+    margin:42px 0 12px;
 }
 
+.seal{
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    border:2px solid var(--oro);
+    outline:1px solid rgba(139,30,45,.3);
+    outline-offset:7px;
+    background:rgba(255,255,255,.62);
+    box-shadow:0 14px 38px rgba(91,37,47,.08);
+}
+
+.seal div{
+    color:var(--rosso);
+    font-size:12px;
+    line-height:1.55;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    font-weight:700;
+}
+
+.seal .seal-icon{
+    display:block;
+    font-size:34px;
+    margin-bottom:7px;
+    letter-spacing:0;
+}
+
+footer{
+    text-align:center;
+    margin-top:30px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+@media (max-width:650px){
+    .page{padding:20px 14px 44px}
+    .hero{padding-top:22px}
+    .subtitle{font-size:16px}
+    .main-card{padding:30px 18px}
+    .gallery{grid-template-columns:1fr}
+    .gallery-item,
+    .gallery-item img,
+    .gallery-placeholder{min-height:250px}
+}
 </style>
 </head>
 
+<body class="intro-open">
 
-<body>
+<!-- INTRO -->
+<div class="intro" id="intro">
+    <div class="intro-inner">
+        <div class="intro-laurel">🌿 🎓 🌿</div>
+        <div class="intro-date">18 Novembre 2026</div>
+        <h2>Un nuovo capitolo ha inizio</h2>
+        <p>Un piccolo ricordo di un giorno che resterà per sempre.</p>
+    </div>
+</div>
 
 <!-- CORIANDOLI -->
 <div id="confetti-layer"></div>
 
-
 <div class="page">
 
-    <!-- TESTATA -->
-
     <section class="hero">
+        <div class="hero-symbol">🎓</div>
 
-        <div class="graduation-cap">
-            🎓
-        </div>
+        <div class="badge">18 Novembre 2026</div>
 
-        <div class="badge">
-            18 Novembre 2026
-        </div>
-
-        <h1>
-            Angela Mazzella
-        </h1>
+        <h1>Angela Mazzella</h1>
 
         <p class="subtitle">
             Dott.ssa in Ingegneria Civile-Edile
         </p>
 
         <div class="ornament">
-
-            <span class="ornament-line"></span>
-
-            <span class="ornament-symbol">
-                ✦
-            </span>
-
-            <span class="ornament-line"></span>
-
+            <span></span>
+            <b>✦</b>
+            <span></span>
         </div>
-
     </section>
 
+    <!-- CONTATORE AUTOMATICO -->
+    <section class="counter-card">
+        <div class="counter-label" id="counter-label">Verso il grande giorno</div>
+        <div class="counter-value" id="counter-value">...</div>
+    </section>
 
     <!-- FOTO -->
-
     <div class="photo-card">
-
-        <img
-            src="media/images/angela.jpeg"
-            alt="Angela Mazzella"
-        >
-
+        <img src="media/images/angela.jpeg" alt="Angela Mazzella">
     </div>
 
-
-    <!-- CONTENUTO -->
-
+    <!-- CARD -->
     <section class="main-card">
-
-        <h2>
-            Ce l'ha fatta! 🎓
-        </h2>
+        <h2>Ce l'ha fatta! 🎓</h2>
 
         <p class="description">
-            Dopo anni di studio, esami, sacrifici
-            e soddisfazioni, Angela ha raggiunto
-            un traguardo importante.
+            Dopo anni di studio, esami, sacrifici e soddisfazioni,
+            Angela ha raggiunto un traguardo importante.
+            Un percorso costruito passo dopo passo, fino a questo giorno.
         </p>
 
-
-        <div class="date">
-            18 · 11 · 2026
-        </div>
-
+        <div class="date">18 · 11 · 2026</div>
 
         <p class="degree">
-
-            Laurea Triennale
-
-            <br>
-
-            <strong>
-                Ingegneria Civile-Edile
-            </strong>
-
+            Laurea Triennale<br>
+            <strong>in Ingegneria Civile-Edile</strong>
         </p>
 
-
         <div class="divider"></div>
-
 
         <p class="quote">
             “Un piccolo ricordo di un grande traguardo.”
         </p>
-
-
-        <div class="secret">
-
-            🎓 Hai scoperto il piccolo segreto
-            nascosto nel cappellino.
-
-            <br><br>
-
-            Grazie per aver condiviso
-            questo giorno speciale con Angela ❤️
-
-        </div>
-
     </section>
 
+    <!-- TRAGUARDO -->
+    <section class="milestone">
+        <div class="mini">Un traguardo costruito passo dopo passo</div>
+        <h3>Esame dopo esame. Sacrificio dopo sacrificio.</h3>
+        <p>
+            Oggi quel percorso ha un nome: <strong>Dottoressa.</strong><br>
+            E da qui comincia tutto ciò che verrà dopo.
+        </p>
+    </section>
+
+    <!-- GALLERIA -->
+    <section class="gallery-section">
+        <h3 class="section-title">Ricordi di questo giorno</h3>
+
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="media/images/foto1.jpeg"
+                     alt="Ricordo della laurea"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    📸 Carica una foto chiamata <strong>&nbsp;foto1.jpeg</strong>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="media/images/foto2.jpeg"
+                     alt="Ricordo della laurea"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    📸 Carica una foto chiamata <strong>&nbsp;foto2.jpeg</strong>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="media/images/foto3.jpeg"
+                     alt="Ricordo della laurea"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    📸 Carica una foto chiamata <strong>&nbsp;foto3.jpeg</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NFC -->
+    <section class="secret">
+        <strong>Hai trovato il segreto del cappellino 🎓</strong>
+        <p>
+            Questo piccolo ricordo nascondeva qualcosa in più.
+            Grazie per aver condiviso con Angela un giorno così importante. ❤️
+        </p>
+    </section>
+
+    <!-- SIGILLO -->
+    <div class="seal-wrap">
+        <div class="seal">
+            <div>
+                <span class="seal-icon">🌿🎓🌿</span>
+                Angela Mazzella<br>
+                2026<br>
+                Ingegneria Civile-Edile
+            </div>
+        </div>
+    </div>
 
     <footer>
-
         18 Novembre 2026 · Un giorno da ricordare ✨
-
     </footer>
 
 </div>
 
-
-
 <script>
+/* INTRO */
+const intro = document.getElementById("intro");
 
-/* =========================
-   CORIANDOLI
-========================= */
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        intro.classList.add("hide");
+        document.body.classList.remove("intro-open");
+        launchConfetti();
+    }, 2300);
+});
 
-const container = document.getElementById("confetti-layer");
+/* CONTATORE */
+function updateCounter(){
+    const target = new Date("2026-11-18T00:00:00");
+    const now = new Date();
 
-const colors = [
+    const oneDay = 1000 * 60 * 60 * 24;
+    const diff = target - now;
+
+    const label = document.getElementById("counter-label");
+    const value = document.getElementById("counter-value");
+
+    if(diff > 0){
+        const days = Math.ceil(diff / oneDay);
+        label.textContent = "Verso il grande giorno";
+
+        if(days === 1){
+            value.textContent = "Manca 1 giorno 🎓";
+        } else {
+            value.textContent = "Mancano " + days + " giorni 🎓";
+        }
+    } else {
+        const daysPassed = Math.floor((now - target) / oneDay);
+
+        label.textContent = "Da quel giorno";
+
+        if(daysPassed === 0){
+            value.textContent = "Oggi Angela si laurea! 🎉";
+        } else if(daysPassed === 1){
+            value.textContent = "È passato 1 giorno 🎓";
+        } else {
+            value.textContent = "Sono passati " + daysPassed + " giorni 🎓";
+        }
+    }
+}
+
+updateCounter();
+
+/* CORIANDOLI */
+const confettiContainer = document.getElementById("confetti-layer");
+
+const confettiColors = [
     "#8b1e2d",
     "#b83246",
     "#c5a253",
-    "#f0cf7a",
+    "#efd58f",
     "#ffffff"
 ];
 
-
-function launchConfetti() {
-
-    for (let i = 0; i < 100; i++) {
-
+function launchConfetti(){
+    for(let i = 0; i < 120; i++){
         const piece = document.createElement("div");
-
         piece.className = "confetti";
 
-        piece.style.left =
-            Math.random() * 100 + "vw";
-
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.width = (6 + Math.random() * 7) + "px";
+        piece.style.height = (10 + Math.random() * 10) + "px";
         piece.style.backgroundColor =
-            colors[
-                Math.floor(
-                    Math.random() * colors.length
-                )
-            ];
+            confettiColors[Math.floor(Math.random() * confettiColors.length)];
 
-        piece.style.animationDuration =
-            (3 + Math.random() * 3) + "s";
+        piece.style.animationDuration = (3.2 + Math.random() * 3) + "s";
+        piece.style.animationDelay = (Math.random() * 1.2) + "s";
 
-        piece.style.animationDelay =
-            (Math.random() * 1.5) + "s";
+        confettiContainer.appendChild(piece);
 
-        piece.style.width =
-            (6 + Math.random() * 7) + "px";
-
-        piece.style.height =
-            (10 + Math.random() * 10) + "px";
-
-        container.appendChild(piece);
-
-
-        setTimeout(() => {
-
-            piece.remove();
-
-        }, 7000);
-
+        setTimeout(() => piece.remove(), 7500);
     }
-
 }
-
-
-window.addEventListener(
-    "load",
-    launchConfetti
-);
-
 </script>
 
 </body>
 </html>
+'''
+
+path = "/mnt/data/index_angela_laurea.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(f"Creato: {path}")
