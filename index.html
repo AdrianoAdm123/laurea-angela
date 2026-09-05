@@ -98,7 +98,7 @@ body.intro-open{overflow:hidden}
     to{opacity:1;transform:translateY(0) scale(1)}
 }
 
-/* CORIANDOLI NATURALI */
+/* CORIANDOLI: CADUTA NATURALE SENZA ROTAZIONE */
 const confettiCanvas = document.getElementById("confetti-canvas");
 const confettiCtx = confettiCanvas.getContext("2d");
 
@@ -128,30 +128,24 @@ function resizeConfettiCanvas(){
 window.addEventListener("resize", resizeConfettiCanvas);
 resizeConfettiCanvas();
 
-function createConfettiPiece(index){
-    const centerBias = Math.random();
-
+function createConfettiPiece(){
     return {
         x: Math.random() * window.innerWidth,
-        y: -20 - Math.random() * 180,
+        y: -30 - Math.random() * 220,
 
-        // Piccolo movimento laterale, senza traiettorie assurde.
-        vx: (Math.random() - 0.5) * 1.4,
+        // Leggero spostamento orizzontale iniziale.
+        vx: (Math.random() - 0.5) * 0.45,
 
-        // Velocità iniziale verticale diversa per ogni pezzo.
-        vy: 0.6 + Math.random() * 1.7,
+        // Caduta verso il basso.
+        vy: 1.2 + Math.random() * 1.5,
+        gravity: 0.018 + Math.random() * 0.015,
 
-        gravity: 0.035 + Math.random() * 0.025,
-        drag: 0.998,
+        width: 5 + Math.random() * 6,
+        height: 9 + Math.random() * 9,
 
-        width: 6 + Math.random() * 7,
-        height: 10 + Math.random() * 9,
-
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.10,
-
-        sway: 0.35 + Math.random() * 0.8,
-        swaySpeed: 0.015 + Math.random() * 0.025,
+        // Oscillazione molto lieve, senza cerchi e senza rotazione.
+        swayAmount: 0.12 + Math.random() * 0.22,
+        swaySpeed: 0.018 + Math.random() * 0.012,
         swayOffset: Math.random() * Math.PI * 2,
 
         color: confettiColors[
@@ -160,7 +154,7 @@ function createConfettiPiece(index){
 
         opacity: 0.95,
         age: 0,
-        delay: Math.random() * 55
+        delay: Math.floor(Math.random() * 50)
     };
 }
 
@@ -172,7 +166,7 @@ function launchConfetti(){
     confettiPieces = [];
 
     for(let i = 0; i < 120; i++){
-        confettiPieces.push(createConfettiPiece(i));
+        confettiPieces.push(createConfettiPiece());
     }
 
     animateConfetti();
@@ -197,46 +191,31 @@ function animateConfetti(){
 
         piece.age++;
 
-        // Caduta naturale: accelerazione verso il basso.
         piece.vy += piece.gravity;
 
-        // Leggerissima resistenza dell'aria.
-        piece.vx *= piece.drag;
-
-        // Oscillazione laterale morbida.
         const sway =
             Math.sin(piece.age * piece.swaySpeed + piece.swayOffset)
-            * piece.sway;
+            * piece.swayAmount;
 
         piece.x += piece.vx + sway;
         piece.y += piece.vy;
 
-        piece.rotation += piece.rotationSpeed;
-
-        // Dissolvenza solo quando è quasi fuori dallo schermo.
-        if(piece.y > window.innerHeight * 0.82){
-            piece.opacity -= 0.018;
+        if(piece.y > window.innerHeight * 0.88){
+            piece.opacity -= 0.02;
         }
 
-        if(
-            piece.opacity > 0 &&
-            piece.y < window.innerHeight + 60
-        ){
+        if(piece.opacity > 0 && piece.y < window.innerHeight + 50){
             stillVisible = true;
         }
 
         confettiCtx.save();
-
         confettiCtx.globalAlpha = Math.max(piece.opacity, 0);
-
-        confettiCtx.translate(piece.x, piece.y);
-        confettiCtx.rotate(piece.rotation);
-
         confettiCtx.fillStyle = piece.color;
 
+        // Rettangolo sempre dritto: nessuna rotazione.
         confettiCtx.fillRect(
-            -piece.width / 2,
-            -piece.height / 2,
+            piece.x - piece.width / 2,
+            piece.y - piece.height / 2,
             piece.width,
             piece.height
         );
