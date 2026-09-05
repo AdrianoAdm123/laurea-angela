@@ -419,6 +419,129 @@ h1{
     line-height:1.7;
 }
 
+
+/* =========================================================
+   ALBUM COLLABORATIVO DELLA FESTA
+========================================================= */
+
+.upload-section{
+    margin-top:36px;
+    padding:34px 24px;
+    text-align:center;
+    border:1px solid rgba(197,162,83,.52);
+    border-radius:28px;
+    background:rgba(255,255,255,.78);
+    box-shadow:0 14px 40px rgba(91,37,47,.09);
+}
+
+.upload-section h3{
+    margin:0 0 10px;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:34px;
+}
+
+.upload-section p{
+    max-width:650px;
+    margin:0 auto 20px;
+    color:var(--muted);
+    font-size:16px;
+    line-height:1.7;
+}
+
+.upload-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-height:52px;
+    padding:13px 22px;
+    border:0;
+    border-radius:999px;
+    background:var(--rosso);
+    color:#fff;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(139,30,45,.24);
+}
+
+#photo-input{
+    display:none;
+}
+
+.upload-status{
+    min-height:24px;
+    margin-top:15px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.upload-status.success{ color:#2d7044; }
+.upload-status.error{ color:#9a2636; }
+
+.party-gallery-section{
+    margin-top:38px;
+}
+
+.party-gallery-title{
+    margin:0 0 8px;
+    text-align:center;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:36px;
+}
+
+.party-gallery-subtitle{
+    margin:0 0 18px;
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.party-gallery{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:4px 3px 14px;
+    scrollbar-width:thin;
+}
+
+.party-photo{
+    flex:0 0 min(78vw,360px);
+    scroll-snap-align:center;
+    overflow:hidden;
+    border:2px solid rgba(197,162,83,.72);
+    border-radius:22px;
+    background:#fff;
+    box-shadow:0 12px 34px rgba(91,37,47,.12);
+}
+
+.party-photo img{
+    width:100%;
+    height:420px;
+    display:block;
+    object-fit:cover;
+    background:#f4eee2;
+}
+
+.party-gallery-empty{
+    width:100%;
+    padding:28px 18px;
+    text-align:center;
+    border:1px dashed rgba(139,30,45,.28);
+    border-radius:22px;
+    color:var(--muted);
+    background:rgba(255,255,255,.55);
+}
+
+@media (max-width:650px){
+    .upload-section{ padding:28px 18px; }
+    .party-photo{ flex-basis:84vw; }
+    .party-photo img{ height:420px; }
+}
+
 /* SIGILLO */
 /* SIGILLO */
 
@@ -622,6 +745,44 @@ footer{
             sacrificio e tanta determinazione. ❤️
         </p>
     </section>
+
+    <!-- ALBUM COLLABORATIVO -->
+    <section class="upload-section">
+        <h3>📸 Aggiungi un ricordo</h3>
+
+        <p>
+            Hai scattato una bella foto durante la festa?
+            Caricala qui: entrerà direttamente nell'album condiviso di Angela.
+        </p>
+
+        <label class="upload-btn" for="photo-input" id="upload-label">
+            📷 Carica una foto
+        </label>
+
+        <input
+            id="photo-input"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+        >
+
+        <div class="upload-status" id="upload-status"></div>
+    </section>
+
+    <!-- FOTO CARICATE DAGLI INVITATI -->
+    <section class="party-gallery-section">
+        <h3 class="party-gallery-title">I ricordi della festa</h3>
+
+        <p class="party-gallery-subtitle">
+            Scorri le foto condivise dagli invitati ↔
+        </p>
+
+        <div class="party-gallery" id="party-gallery">
+            <div class="party-gallery-empty">
+                Le foto condivise durante la festa appariranno qui ✨
+            </div>
+        </div>
+    </section>
+
 <!-- SIGILLO -->
     <div class="seal-wrap">
         <div class="seal">
@@ -775,6 +936,162 @@ function launchConfetti(){
         });
     }
 }
+
+/* =========================================================
+   ALBUM COLLABORATIVO
+   Sostituisci l'indirizzo qui sotto con quello del Worker.
+========================================================= */
+
+const PHOTO_API = "https://INSERISCI-QUI.workers.dev";
+
+const photoInput = document.getElementById("photo-input");
+const uploadStatus = document.getElementById("upload-status");
+const uploadLabel = document.getElementById("upload-label");
+const partyGallery = document.getElementById("party-gallery");
+
+function setUploadStatus(message, type = ""){
+    uploadStatus.textContent = message;
+    uploadStatus.className = "upload-status" + (type ? " " + type : "");
+}
+
+function escapeHtml(value){
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+async function loadPartyPhotos(){
+    if(PHOTO_API.includes("INSERISCI-QUI")){
+        partyGallery.innerHTML = `
+            <div class="party-gallery-empty">
+                L'album sarà attivo appena colleghiamo il servizio di caricamento.
+            </div>
+        `;
+        return;
+    }
+
+    try{
+        const response = await fetch(PHOTO_API + "/images", {
+            method:"GET",
+            cache:"no-store"
+        });
+
+        if(!response.ok){
+            throw new Error("Impossibile caricare l'album.");
+        }
+
+        const photos = await response.json();
+
+        if(!Array.isArray(photos) || photos.length === 0){
+            partyGallery.innerHTML = `
+                <div class="party-gallery-empty">
+                    Ancora nessuna foto. Sii il primo a lasciare un ricordo 📸
+                </div>
+            `;
+            return;
+        }
+
+        partyGallery.innerHTML = photos.map(photo => `
+            <article class="party-photo">
+                <img
+                    src="${escapeHtml(photo.url)}"
+                    alt="Foto condivisa durante la festa di laurea"
+                    loading="lazy"
+                >
+            </article>
+        `).join("");
+
+    }catch(error){
+        partyGallery.innerHTML = `
+            <div class="party-gallery-empty">
+                In questo momento non riesco a caricare le foto.
+            </div>
+        `;
+    }
+}
+
+photoInput.addEventListener("change", async () => {
+    const file = photoInput.files && photoInput.files[0];
+    if(!file) return;
+
+    if(PHOTO_API.includes("INSERISCI-QUI")){
+        setUploadStatus(
+            "Prima dobbiamo collegare il servizio di caricamento.",
+            "error"
+        );
+        photoInput.value = "";
+        return;
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if(!allowedTypes.includes(file.type)){
+        setUploadStatus(
+            "Formato non supportato. Usa JPG, PNG oppure WEBP.",
+            "error"
+        );
+        photoInput.value = "";
+        return;
+    }
+
+    const maxBytes = 8 * 1024 * 1024;
+
+    if(file.size > maxBytes){
+        setUploadStatus(
+            "La foto è troppo grande. Il limite è 8 MB.",
+            "error"
+        );
+        photoInput.value = "";
+        return;
+    }
+
+    uploadLabel.style.pointerEvents = "none";
+    uploadLabel.style.opacity = ".6";
+    setUploadStatus("Caricamento della foto…");
+
+    try{
+        const formData = new FormData();
+        formData.append("photo", file);
+
+        const response = await fetch(PHOTO_API + "/upload", {
+            method:"POST",
+            body:formData
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if(!response.ok){
+            throw new Error(data.error || "Caricamento non riuscito.");
+        }
+
+        setUploadStatus(
+            "✅ Foto aggiunta! Grazie per il ricordo ❤️",
+            "success"
+        );
+
+        photoInput.value = "";
+        await loadPartyPhotos();
+
+        setTimeout(() => {
+            partyGallery.scrollTo({ left:0, behavior:"smooth" });
+        }, 250);
+
+    }catch(error){
+        setUploadStatus(
+            error.message || "Caricamento non riuscito.",
+            "error"
+        );
+    }finally{
+        uploadLabel.style.pointerEvents = "";
+        uploadLabel.style.opacity = "";
+    }
+});
+
+loadPartyPhotos();
+
 </script>
 
 </body>
