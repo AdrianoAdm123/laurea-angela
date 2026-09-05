@@ -632,6 +632,119 @@ h1{
     }
 }
 
+
+/* =========================================================
+   ANTEPRIMA FOTO PRIMA DEL CARICAMENTO
+========================================================= */
+.photo-preview-modal{
+    position:fixed;
+    inset:0;
+    z-index:30000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(45,20,25,.72);
+    backdrop-filter:blur(7px);
+}
+
+.photo-preview-modal.open{
+    display:flex;
+}
+
+.photo-preview-card{
+    width:min(520px,100%);
+    max-height:92dvh;
+    overflow:auto;
+    padding:22px;
+    border:1px solid rgba(197,162,83,.75);
+    border-radius:26px;
+    background:#fffdf8;
+    box-shadow:0 28px 80px rgba(30,10,15,.35);
+    text-align:center;
+}
+
+.photo-preview-card h3{
+    margin:0 0 8px;
+    font-family:"Cormorant Garamond",serif;
+    font-size:34px;
+    color:var(--rosso);
+}
+
+.photo-preview-card p{
+    margin:0 0 16px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.55;
+}
+
+.photo-preview-image-wrap{
+    overflow:hidden;
+    border:2px solid rgba(197,162,83,.72);
+    border-radius:20px;
+    background:#f4eee2;
+}
+
+.photo-preview-image{
+    width:100%;
+    max-height:56dvh;
+    display:block;
+    object-fit:contain;
+    background:#f4eee2;
+}
+
+.photo-preview-actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:18px;
+}
+
+.photo-preview-confirm,
+.photo-preview-cancel{
+    min-height:48px;
+    padding:0 18px;
+    border-radius:14px;
+    border:0;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.photo-preview-confirm{
+    background:var(--rosso);
+    color:#fff;
+    box-shadow:0 8px 22px rgba(139,30,45,.20);
+}
+
+.photo-preview-cancel{
+    background:rgba(139,30,45,.08);
+    color:var(--rosso);
+    border:1px solid rgba(139,30,45,.22);
+}
+
+.photo-preview-confirm:disabled,
+.photo-preview-cancel:disabled{
+    opacity:.58;
+    cursor:wait;
+}
+
+@media (max-width:520px){
+    .photo-preview-card{
+        padding:18px;
+        border-radius:22px;
+    }
+
+    .photo-preview-actions{
+        flex-direction:column;
+    }
+
+    .photo-preview-confirm,
+    .photo-preview-cancel{
+        width:100%;
+    }
+}
+
 /* SIGILLO */
 /* SIGILLO */
 
@@ -940,6 +1053,33 @@ footer{
 
 </div>
 
+
+<!-- ANTEPRIMA FOTO PRIMA DEL CARICAMENTO -->
+<div class="photo-preview-modal" id="photo-preview-modal" aria-hidden="true">
+    <div class="photo-preview-card" role="dialog" aria-modal="true" aria-labelledby="photo-preview-title">
+        <h3 id="photo-preview-title">Vuoi condividere questa foto? 📸</h3>
+        <p>Controlla l’anteprima e scegli se aggiungerla all’album privato della festa.</p>
+
+        <div class="photo-preview-image-wrap">
+            <img
+                class="photo-preview-image"
+                id="photo-preview-image"
+                alt="Anteprima della foto selezionata"
+            >
+        </div>
+
+        <div class="photo-preview-actions">
+            <button class="photo-preview-confirm" id="photo-preview-confirm" type="button">
+                📷 Carica questa foto
+            </button>
+
+            <button class="photo-preview-cancel" id="photo-preview-cancel" type="button">
+                Annulla
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 /* =========================================================
    INTRO
@@ -1087,9 +1227,15 @@ const loginStatus = document.getElementById("login-status");
 const uploadStatus = document.getElementById("upload-status");
 const partyPhotoInput = document.getElementById("party-photo-input");
 const partyGallery = document.getElementById("party-gallery");
+const photoPreviewModal = document.getElementById("photo-preview-modal");
+const photoPreviewImage = document.getElementById("photo-preview-image");
+const photoPreviewConfirm = document.getElementById("photo-preview-confirm");
+const photoPreviewCancel = document.getElementById("photo-preview-cancel");
 
 let gallerySession = sessionStorage.getItem(SESSION_KEY) || "";
 let galleryObjectUrls = [];
+let pendingPhotoFile = null;
+let pendingPreviewUrl = "";
 
 function setLoginStatus(message, type = ""){
     loginStatus.textContent = message;
@@ -1377,40 +1523,36 @@ galleryRefresh.addEventListener("click", async () => {
     await loadPartyPhotos();
 });
 
-partyPhotoInput.addEventListener("change", async () => {
-    const file = partyPhotoInput.files && partyPhotoInput.files[0];
+function closePhotoPreview({ resetInput = true } = {}){
+    photoPreviewModal.classList.remove("open");
+    photoPreviewModal.setAttribute("aria-hidden", "true");
 
-    if(!file || !gallerySession){
-        return;
+    if(pendingPreviewUrl){
+        URL.revokeObjectURL(pendingPreviewUrl);
+        pendingPreviewUrl = "";
     }
 
-    const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-    ];
+    photoPreviewImage.removeAttribute("src");
+    pendingPhotoFile = null;
 
-    if(!allowedTypes.includes(file.type)){
-        setUploadStatus(
-            "Formato non supportato. Usa JPG, PNG oppure WEBP.",
-            "error"
-        );
+    if(resetInput){
         partyPhotoInput.value = "";
-        return;
+    }
+}
+
+function openPhotoPreview(file){
+    if(pendingPreviewUrl){
+        URL.revokeObjectURL(pendingPreviewUrl);
     }
 
-    const confermaUpload = window.confirm(
-        "Sei sicuro di voler caricare questa foto nell’album della festa?"
-    );
+    pendingPhotoFile = file;
+    pendingPreviewUrl = URL.createObjectURL(file);
+    photoPreviewImage.src = pendingPreviewUrl;
+    photoPreviewModal.classList.add("open");
+    photoPreviewModal.setAttribute("aria-hidden", "false");
+}
 
-    if(!confermaUpload){
-        partyPhotoInput.value = "";
-        setUploadStatus("Caricamento annullato.");
-        return;
-    }
-
-    // Limite prudenziale prima di aprire la foto nel browser.
-    // Le foto normali degli smartphone vengono poi compresse automaticamente.
+async function uploadSelectedPhoto(file){
     const maxOriginalBytes = 30 * 1024 * 1024;
 
     if(file.size > maxOriginalBytes){
@@ -1418,10 +1560,13 @@ partyPhotoInput.addEventListener("change", async () => {
             "La foto è troppo grande per essere elaborata (massimo 30 MB).",
             "error"
         );
-        partyPhotoInput.value = "";
+        closePhotoPreview();
         return;
     }
 
+    photoPreviewConfirm.disabled = true;
+    photoPreviewCancel.disabled = true;
+    photoPreviewConfirm.textContent = "Caricamento…";
     setUploadStatus("Ottimizzo la foto…");
 
     try{
@@ -1455,17 +1600,16 @@ partyPhotoInput.addEventListener("change", async () => {
             );
         }
 
+        closePhotoPreview();
         setUploadStatus(
             "✅ Foto aggiunta! Grazie per il ricordo ❤️",
             "success"
         );
-
-        partyPhotoInput.value = "";
         await loadPartyPhotos();
 
     }catch(error){
         if(error.message === "SESSION_EXPIRED"){
-            setUploadStatus("");
+            closePhotoPreview();
             setLoginStatus(
                 "La sessione è scaduta. Inserisci di nuovo la password.",
                 "error"
@@ -1478,11 +1622,63 @@ partyPhotoInput.addEventListener("change", async () => {
             error.message || "Caricamento non riuscito.",
             "error"
         );
+    }finally{
+        photoPreviewConfirm.disabled = false;
+        photoPreviewCancel.disabled = false;
+        photoPreviewConfirm.textContent = "📷 Carica questa foto";
+    }
+}
+
+partyPhotoInput.addEventListener("change", () => {
+    const file = partyPhotoInput.files && partyPhotoInput.files[0];
+
+    if(!file || !gallerySession){
+        return;
+    }
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    if(!allowedTypes.includes(file.type)){
+        setUploadStatus(
+            "Formato non supportato. Usa JPG, PNG oppure WEBP.",
+            "error"
+        );
+        partyPhotoInput.value = "";
+        return;
+    }
+
+    setUploadStatus("");
+    openPhotoPreview(file);
+});
+
+photoPreviewConfirm.addEventListener("click", async () => {
+    if(!pendingPhotoFile) return;
+    await uploadSelectedPhoto(pendingPhotoFile);
+});
+
+photoPreviewCancel.addEventListener("click", () => {
+    closePhotoPreview();
+    setUploadStatus("Caricamento annullato.");
+});
+
+photoPreviewModal.addEventListener("click", event => {
+    if(event.target === photoPreviewModal && !photoPreviewConfirm.disabled){
+        closePhotoPreview();
+        setUploadStatus("Caricamento annullato.");
     }
 });
 
-/* Se la scheda è ancora aperta e la sessione esiste,
-   prova a riaprire automaticamente l'album. */
+document.addEventListener("keydown", event => {
+    if(event.key === "Escape" && photoPreviewModal.classList.contains("open") && !photoPreviewConfirm.disabled){
+        closePhotoPreview();
+        setUploadStatus("Caricamento annullato.");
+    }
+});
+
 if(gallerySession){
     showPrivateAlbum();
     loadPartyPhotos();
