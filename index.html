@@ -41,11 +41,18 @@ body{
         radial-gradient(circle at top, #fffdf8 0%, var(--avorio) 44%, var(--avorio2) 100%);
 }
 
-/* BLOCCA LO SCROLL DURANTE LA SCHERMATA INIZIALE */
-html.intro-open,
+/* BLOCCA DAVVERO LO SCROLL DURANTE LA SCHERMATA INIZIALE */
+html.intro-open{
+    overflow:hidden !important;
+    overscroll-behavior:none;
+}
+
 body.intro-open{
-    overflow:hidden;
-    height:100%;
+    overflow:hidden !important;
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100dvh;
     touch-action:none;
     overscroll-behavior:none;
 }
@@ -56,8 +63,16 @@ body.intro-open{
 
 .intro{
     position:fixed;
-    inset:0;
-    z-index:20000;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100vw;
+    height:100dvh;
+    min-height:100dvh;
+    max-height:100dvh;
+    overflow:hidden;
+    z-index:2147483647;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -732,6 +747,40 @@ footer{
 ========================================================= */
 
 const intro = document.getElementById("intro");
+
+/* Evita che il browser ripristini una vecchia posizione di scroll */
+if ("scrollRestoration" in history){
+    history.scrollRestoration = "manual";
+}
+window.scrollTo(0, 0);
+
+/* Blocca anche gesture touch, rotellina e tasti mentre l'intro è visibile */
+function preventIntroScroll(event){
+    if(document.body.classList.contains("intro-open")){
+        event.preventDefault();
+    }
+}
+
+document.addEventListener("touchmove", preventIntroScroll, { passive:false });
+document.addEventListener("wheel", preventIntroScroll, { passive:false });
+
+document.addEventListener("keydown", (event) => {
+    if(!document.body.classList.contains("intro-open")) return;
+
+    const blockedKeys = [
+        "ArrowUp",
+        "ArrowDown",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+        " "
+    ];
+
+    if(blockedKeys.includes(event.key)){
+        event.preventDefault();
+    }
+});
 
 function closeIntro(){
     if(intro){
