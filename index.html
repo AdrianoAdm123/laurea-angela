@@ -1,173 +1,411 @@
-<style>
-    * {
-        box-sizing: border-box;
-    }
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    :root {
-        --rosso-laurea: #8b1e2d;
-        --rosso-chiaro: #b83246;
-        --oro: #c7a253;
-        --avorio: #faf7f0;
-        --avorio-scuro: #efe7d7;
-        --testo: #2b2323;
-    }
+    <title>Laurea di Angela Mazzella 🎓</title>
+    <meta name="description" content="Un piccolo ricordo della laurea di Angela Mazzella">
 
-    body {
-        margin: 0;
-        font-family: 'Inter', sans-serif;
-        background:
-            radial-gradient(circle at top, #fffaf3 0%, var(--avorio) 45%, var(--avorio-scuro) 100%);
-        color: var(--testo);
-        min-height: 100vh;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    .page {
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 40px 20px 60px;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .hero {
-        text-align: center;
-        padding: 50px 20px 30px;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: 9px 15px;
-        border: 1px solid rgba(139,30,45,0.25);
-        border-radius: 999px;
-        background: rgba(139,30,45,0.08);
-        color: var(--rosso-laurea);
-        font-size: 14px;
-        font-weight: 700;
-        margin-bottom: 22px;
-    }
-
-    h1 {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(42px, 8vw, 76px);
-        margin: 0;
-        line-height: 1.05;
-        color: var(--rosso-laurea);
-        text-shadow: 0 2px 0 rgba(255,255,255,0.5);
-    }
-
-    .subtitle {
-        font-size: 20px;
-        margin-top: 16px;
-        color: #5f4a4d;
-    }
-
-    .photo-card {
-        margin: 30px auto;
-        max-width: 520px;
-        background: rgba(255,255,255,0.82);
-        padding: 14px;
-        border-radius: 28px;
-        border: 2px solid rgba(199,162,83,0.55);
-        box-shadow:
-            0 18px 60px rgba(86,35,44,0.18),
-            0 0 0 6px rgba(255,255,255,0.28);
-    }
-
-    .photo-card img {
-        width: 100%;
-        display: block;
-        border-radius: 20px;
-        aspect-ratio: 4 / 5;
-        object-fit: cover;
-    }
-
-    .main-card {
-        margin-top: 30px;
-        background: rgba(255,255,255,0.72);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(199,162,83,0.45);
-        border-radius: 28px;
-        padding: 32px 24px;
-        text-align: center;
-        box-shadow: 0 18px 50px rgba(86,35,44,0.10);
-    }
-
-    .main-card h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 34px;
-        margin-top: 0;
-        margin-bottom: 16px;
-        color: var(--rosso-laurea);
-    }
-
-    .date {
-        display: inline-block;
-        font-size: 24px;
-        font-weight: 800;
-        margin: 16px 0;
-        padding: 10px 18px;
-        border-radius: 999px;
-        background: var(--rosso-laurea);
-        color: white;
-        box-shadow: 0 8px 20px rgba(139,30,45,0.20);
-        letter-spacing: 1px;
-    }
-
-    .course {
-        font-size: 18px;
-        line-height: 1.6;
-        color: #4f4243;
-    }
-
-    .divider {
-        width: 90px;
-        height: 3px;
-        background: linear-gradient(
-            90deg,
-            transparent,
-            var(--oro),
-            var(--rosso-laurea),
-            var(--oro),
-            transparent
-        );
-        margin: 28px auto;
-        border-radius: 999px;
-    }
-
-    .message {
-        font-family: 'Playfair Display', serif;
-        font-size: 24px;
-        line-height: 1.5;
-        color: var(--rosso-laurea);
-    }
-
-    .small {
-        margin-top: 30px;
-        font-size: 14px;
-        color: #7a6669;
-    }
-
-    .footer {
-        text-align: center;
-        margin-top: 45px;
-        font-size: 14px;
-        color: #6d5b5d;
-    }
-
-    @media (max-width: 600px) {
-        .page {
-            padding: 20px 14px 40px;
+    <style>
+        * {
+            box-sizing: border-box;
         }
+
+        :root {
+            --rosso: #8b1e2d;
+            --rosso-chiaro: #b83246;
+            --oro: #c7a253;
+            --avorio: #faf7f0;
+            --avorio-scuro: #efe7d7;
+            --testo: #2b2323;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background:
+                radial-gradient(circle at top, #fffaf3 0%, var(--avorio) 45%, var(--avorio-scuro) 100%);
+            color: var(--testo);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* HERO */
 
         .hero {
-            padding-top: 30px;
+            text-align: center;
+            padding: 45px 20px 25px;
         }
 
+        .cap {
+            font-size: 55px;
+            margin-bottom: 12px;
+            animation: capIn 1s ease;
+        }
+
+        @keyframes capIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) rotate(-15deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 9px 16px;
+            border: 1px solid rgba(139,30,45,0.25);
+            border-radius: 999px;
+            background: rgba(139,30,45,0.08);
+            color: var(--rosso);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(43px, 8vw, 76px);
+            margin: 0;
+            line-height: 1.05;
+            color: var(--rosso);
+        }
+
+        .subtitle {
+            font-size: 19px;
+            margin-top: 16px;
+            color: #685457;
+        }
+
+        /* FOTO */
+
+        .photo-card {
+            margin: 30px auto;
+            max-width: 520px;
+            background: rgba(255,255,255,0.85);
+            padding: 12px;
+            border-radius: 28px;
+            border: 2px solid rgba(199,162,83,0.65);
+
+            box-shadow:
+                0 18px 60px rgba(86,35,44,0.18),
+                0 0 0 5px rgba(255,255,255,0.30);
+
+            animation: photoIn 1s ease 0.2s both;
+        }
+
+        @keyframes photoIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .photo-card img {
+            width: 100%;
+            display: block;
+            border-radius: 20px;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+        }
+
+        /* CARD */
+
         .main-card {
-            padding: 26px 18px;
+            margin-top: 35px;
+            background: rgba(255,255,255,0.74);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(199,162,83,0.50);
+            border-radius: 28px;
+            padding: 36px 24px;
+            text-align: center;
+            box-shadow: 0 18px 50px rgba(86,35,44,0.10);
+        }
+
+        .main-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--rosso);
+            margin: 0 0 18px;
+        }
+
+        .course {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #514345;
         }
 
         .date {
-            font-size: 20px;
+            display: inline-block;
+            font-size: 23px;
+            font-weight: 800;
+            margin: 18px 0;
+            padding: 11px 20px;
+            border-radius: 999px;
+            background: var(--rosso);
+            color: white;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 22px rgba(139,30,45,0.25);
         }
-    }
-</style>
+
+        .divider {
+            width: 100px;
+            height: 3px;
+            margin: 30px auto;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--oro),
+                var(--rosso),
+                var(--oro),
+                transparent
+            );
+
+            border-radius: 100px;
+        }
+
+        .message {
+            font-family: 'Playfair Display', serif;
+            font-size: 25px;
+            line-height: 1.5;
+            color: var(--rosso);
+        }
+
+        .small {
+            margin-top: 28px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #7a6669;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 45px;
+            font-size: 14px;
+            color: #6d5b5d;
+        }
+
+        /* CORIANDOLI */
+
+        #confetti {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 20px 14px 40px;
+            }
+
+            .hero {
+                padding: 30px 10px 20px;
+            }
+
+            .cap {
+                font-size: 48px;
+            }
+
+            .main-card {
+                padding: 28px 18px;
+            }
+
+            .date {
+                font-size: 19px;
+            }
+
+            .course {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CORIANDOLI -->
+    <canvas id="confetti"></canvas>
+
+    <div class="page">
+
+        <section class="hero">
+
+            <div class="cap">🎓</div>
+
+            <div class="badge">
+                18 Novembre 2026
+            </div>
+
+            <h1>Angela Mazzella</h1>
+
+            <p class="subtitle">
+                Dott.ssa in Ingegneria Civile-Edile
+            </p>
+
+        </section>
+
+        <div class="photo-card">
+            <img src="media/images/angela.jpeg" alt="Angela Mazzella">
+        </div>
+
+        <section class="main-card">
+
+            <h2>Ce l'ha fatta! 🎓</h2>
+
+            <p class="course">
+                Dopo anni di studio, esami, sacrifici e soddisfazioni,
+                Angela ha raggiunto un traguardo importante.
+            </p>
+
+            <div class="date">
+                18 · 11 · 2026
+            </div>
+
+            <p class="course">
+                Laurea Triennale<br>
+                <strong>in Ingegneria Civile-Edile</strong>
+            </p>
+
+            <div class="divider"></div>
+
+            <p class="message">
+                “Un piccolo ricordo di un grande traguardo.”
+            </p>
+
+            <p class="small">
+                Se hai trovato questa pagina grazie al cappellino,
+                hai scoperto il suo piccolo segreto ✨
+            </p>
+
+        </section>
+
+        <div class="footer">
+            Con affetto, per ricordare questo giorno speciale ❤️
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById("confetti");
+        const ctx = canvas.getContext("2d");
+
+        let confetti = [];
+
+        const colors = [
+            "#8b1e2d",
+            "#b83246",
+            "#c7a253",
+            "#f1d58a",
+            "#ffffff"
+        ];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+
+        window.addEventListener("resize", resizeCanvas);
+
+        function createConfetti() {
+
+            confetti = [];
+
+            for (let i = 0; i < 130; i++) {
+
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * -canvas.height,
+                    width: Math.random() * 8 + 5,
+                    height: Math.random() * 12 + 6,
+                    speed: Math.random() * 3 + 2,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 8 - 4,
+                    color: colors[
+                        Math.floor(Math.random() * colors.length)
+                    ],
+                    opacity: 1
+                });
+            }
+        }
+
+        function drawConfetti() {
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            confetti.forEach(piece => {
+
+                ctx.save();
+
+                ctx.globalAlpha = piece.opacity;
+
+                ctx.translate(
+                    piece.x + piece.width / 2,
+                    piece.y + piece.height / 2
+                );
+
+                ctx.rotate(piece.rotation * Math.PI / 180);
+
+                ctx.fillStyle = piece.color;
+
+                ctx.fillRect(
+                    -piece.width / 2,
+                    -piece.height / 2,
+                    piece.width,
+                    piece.height
+                );
+
+                ctx.restore();
+
+                piece.y += piece.speed;
+                piece.rotation += piece.rotationSpeed;
+
+                if (piece.y > canvas.height * 0.7) {
+                    piece.opacity -= 0.012;
+                }
+            });
+
+            confetti = confetti.filter(piece => piece.opacity > 0);
+
+            if (confetti.length > 0) {
+                requestAnimationFrame(drawConfetti);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        window.addEventListener("load", () => {
+            createConfetti();
+            drawConfetti();
+        });
+    </script>
+
+</body>
+</html>
