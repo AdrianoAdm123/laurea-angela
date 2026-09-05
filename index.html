@@ -1,4 +1,4 @@
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -194,34 +194,6 @@ h1{
 .ornament b{
     color:var(--oro);
     font-size:18px;
-}
-
-/* CONTATORE */
-.counter-card{
-    max-width:620px;
-    margin:20px auto 32px;
-    padding:20px;
-    text-align:center;
-    border:1px solid rgba(197,162,83,.48);
-    border-radius:22px;
-    background:rgba(255,255,255,.62);
-    box-shadow:0 12px 34px rgba(87,43,48,.08);
-}
-
-.counter-label{
-    color:var(--muted);
-    font-size:13px;
-    text-transform:uppercase;
-    letter-spacing:1.8px;
-    font-weight:700;
-}
-
-.counter-value{
-    margin-top:7px;
-    font-family:"Cormorant Garamond",serif;
-    color:var(--rosso);
-    font-size:clamp(28px,6vw,46px);
-    line-height:1.05;
 }
 
 /* FOTO PRINCIPALE */
@@ -505,14 +477,7 @@ footer{
             <span></span>
         </div>
     </section>
-
-    <!-- CONTATORE AUTOMATICO -->
-    <section class="counter-card">
-        <div class="counter-label" id="counter-label">Verso il grande giorno</div>
-        <div class="counter-value" id="counter-value">...</div>
-    </section>
-
-    <!-- FOTO -->
+<!-- FOTO -->
     <div class="photo-card">
         <img src="media/images/angela.jpeg" alt="Angela Mazzella">
     </div>
@@ -608,6 +573,9 @@ footer{
 
     <footer>
         18 Novembre 2026 · Un giorno da ricordare ✨
+        <div style="margin-top:10px; font-size:12px; opacity:0.8;">
+            Sito creato e ideato da Adriano Di Maio
+        </div>
     </footer>
 
 </div>
@@ -623,43 +591,6 @@ window.addEventListener("load", () => {
         launchConfetti();
     }, 2300);
 });
-
-/* CONTATORE */
-function updateCounter(){
-    const target = new Date("2026-11-18T00:00:00");
-    const now = new Date();
-
-    const oneDay = 1000 * 60 * 60 * 24;
-    const diff = target - now;
-
-    const label = document.getElementById("counter-label");
-    const value = document.getElementById("counter-value");
-
-    if(diff > 0){
-        const days = Math.ceil(diff / oneDay);
-        label.textContent = "Verso il grande giorno";
-
-        if(days === 1){
-            value.textContent = "Manca 1 giorno 🎓";
-        } else {
-            value.textContent = "Mancano " + days + " giorni 🎓";
-        }
-    } else {
-        const daysPassed = Math.floor((now - target) / oneDay);
-
-        label.textContent = "Da quel giorno";
-
-        if(daysPassed === 0){
-            value.textContent = "Oggi Angela si laurea! 🎉";
-        } else if(daysPassed === 1){
-            value.textContent = "È passato 1 giorno 🎓";
-        } else {
-            value.textContent = "Sono passati " + daysPassed + " giorni 🎓";
-        }
-    }
-}
-
-updateCounter();
 
 /* CORIANDOLI */
 const confettiContainer = document.getElementById("confetti-layer");
@@ -695,10 +626,3 @@ function launchConfetti(){
 
 </body>
 </html>
-'''
-
-path = "/mnt/data/index_angela_laurea.html"
-with open(path, "w", encoding="utf-8") as f:
-    f.write(html)
-
-print(f"Creato: {path}")
