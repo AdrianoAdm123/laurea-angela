@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="intro-open">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +39,15 @@ body{
     color:var(--testo);
     background:
         radial-gradient(circle at top, #fffdf8 0%, var(--avorio) 44%, var(--avorio2) 100%);
+}
+
+/* BLOCCA LO SCROLL DURANTE LA SCHERMATA INIZIALE */
+html.intro-open,
+body.intro-open{
+    overflow:hidden;
+    height:100%;
+    touch-action:none;
+    overscroll-behavior:none;
 }
 
 /* =========================================================
@@ -526,7 +535,7 @@ footer{
 </style>
 </head>
 
-<body>
+<body class="intro-open">
 
 <!-- =====================================================
      SCHERMATA INIZIALE
@@ -728,6 +737,9 @@ function closeIntro(){
     if(intro){
         intro.classList.add("hide");
     }
+
+    document.documentElement.classList.remove("intro-open");
+    document.body.classList.remove("intro-open");
 }
 
 window.addEventListener("load", () => {
