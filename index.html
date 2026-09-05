@@ -1399,6 +1399,16 @@ partyPhotoInput.addEventListener("change", async () => {
         return;
     }
 
+    const confermaUpload = window.confirm(
+        "Sei sicuro di voler caricare questa foto nell’album della festa?"
+    );
+
+    if(!confermaUpload){
+        partyPhotoInput.value = "";
+        setUploadStatus("Caricamento annullato.");
+        return;
+    }
+
     // Limite prudenziale prima di aprire la foto nel browser.
     // Le foto normali degli smartphone vengono poi compresse automaticamente.
     const maxOriginalBytes = 30 * 1024 * 1024;
