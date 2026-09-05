@@ -16,51 +16,131 @@
     --rosso:#8b1e2d;
     --rosso2:#b83246;
     --oro:#c5a253;
-    --oro2:#e7cf92;
+    --oro-chiaro:#ead59b;
     --avorio:#fbf7ef;
     --avorio2:#efe2c7;
     --testo:#2d2325;
     --muted:#756064;
 }
 
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
-html{scroll-behavior:smooth}
+html{
+    scroll-behavior:smooth;
+}
 
 body{
     margin:0;
+    min-height:100vh;
+    overflow-x:hidden;
     font-family:"Inter",sans-serif;
     color:var(--testo);
     background:
-        radial-gradient(circle at top, #fffdf8 0%, var(--avorio) 42%, var(--avorio2) 100%);
-    min-height:100vh;
-    overflow-x:hidden;
+        radial-gradient(circle at top, #fffdf8 0%, var(--avorio) 44%, var(--avorio2) 100%);
 }
 
-to{opacity:1;transform:translateY(0) scale(1)}
+/* =========================================================
+   SCHERMATA INIZIALE
+========================================================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:26px;
+    background:
+        radial-gradient(circle at center, rgba(139,30,45,.12), transparent 48%),
+        linear-gradient(145deg,#fffdf8,#f0e3c9);
+
+    opacity:1;
+    visibility:visible;
+    transition:opacity .85s ease, visibility .85s ease;
 }
 
-/* CORIANDOLI */
+.intro.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.intro-content{
+    width:min(680px,100%);
+    text-align:center;
+    animation:introContentIn .9s ease both;
+}
+
+.intro-icons{
+    font-size:50px;
+    margin-bottom:20px;
+}
+
+.intro-date{
+    color:var(--rosso);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.intro-title{
+    margin:18px 0 14px;
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(48px,8vw,82px);
+    line-height:.95;
+    color:var(--rosso);
+}
+
+.intro-text{
+    margin:0;
+    color:var(--muted);
+    font-size:17px;
+    line-height:1.6;
+}
+
+@keyframes introContentIn{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================================================
+   CORIANDOLI
+   - niente rotazione
+   - caduta lenta
+   - dissolvenza solo verso il fondo
+========================================================= */
+
 #confetti-layer{
     position:fixed;
     inset:0;
-    pointer-events:none;
     z-index:9999;
+    pointer-events:none;
     overflow:hidden;
 }
 
 .confetti{
     position:absolute;
-    top:-24px;
+    top:-30px;
+    opacity:1;
     border-radius:2px;
-    will-change:transform, opacity;
+    will-change:transform,opacity;
+
     animation-name:confettiFall;
     animation-timing-function:linear;
     animation-fill-mode:forwards;
 }
 
 @keyframes confettiFall{
-
     0%{
         transform:translate3d(0,-30px,0);
         opacity:1;
@@ -72,12 +152,15 @@ to{opacity:1;transform:translateY(0) scale(1)}
     }
 
     100%{
-        transform:translate3d(var(--drift),100vh,0);
+        transform:translate3d(var(--drift),103vh,0);
         opacity:0;
     }
 }
 
-/* PAGINA */
+/* =========================================================
+   PAGINA
+========================================================= */
+
 .page{
     width:100%;
     max-width:900px;
@@ -93,15 +176,18 @@ to{opacity:1;transform:translateY(0) scale(1)}
 .hero-symbol{
     font-size:54px;
     margin-bottom:12px;
-    animation:float 3s ease-in-out infinite;
+    animation:floatCap 3s ease-in-out infinite;
 }
 
-@keyframes float{
-    50%{transform:translateY(-5px)}
+@keyframes floatCap{
+    50%{
+        transform:translateY(-5px);
+    }
 }
 
 .badge{
     display:inline-block;
+    margin-bottom:18px;
     padding:9px 17px;
     border:1px solid rgba(139,30,45,.24);
     border-radius:999px;
@@ -109,14 +195,13 @@ to{opacity:1;transform:translateY(0) scale(1)}
     color:var(--rosso);
     font-size:14px;
     font-weight:700;
-    margin-bottom:18px;
 }
 
 h1{
+    margin:0;
     font-family:"Cormorant Garamond",serif;
     font-size:clamp(48px,8vw,82px);
     line-height:.95;
-    margin:0;
     color:var(--rosso);
 }
 
@@ -134,48 +219,49 @@ h1{
     margin:24px 0 10px;
 }
 
-.ornament span:first-child,
-.ornament span:last-child{
+.ornament .line{
     width:68px;
     height:1px;
     background:linear-gradient(90deg,transparent,var(--oro));
 }
 
-.ornament span:last-child{
+.ornament .line.right{
     background:linear-gradient(90deg,var(--oro),transparent);
 }
 
-.ornament b{
+.ornament .star{
     color:var(--oro);
     font-size:18px;
 }
 
 /* FOTO PRINCIPALE */
+
 .photo-card{
-    margin:0 auto 36px;
     max-width:520px;
+    margin:18px auto 36px;
     padding:11px;
+    border:2px solid var(--oro);
     border-radius:28px;
     background:white;
-    border:2px solid var(--oro);
     box-shadow:0 22px 58px rgba(91,37,47,.18);
 }
 
 .photo-card img{
     width:100%;
     display:block;
-    border-radius:19px;
     aspect-ratio:4/5;
     object-fit:cover;
+    border-radius:19px;
 }
 
 /* CARD PRINCIPALE */
+
 .main-card{
     text-align:center;
     padding:38px 26px;
+    border:1px solid rgba(197,162,83,.52);
     border-radius:28px;
     background:rgba(255,255,255,.76);
-    border:1px solid rgba(197,162,83,.52);
     box-shadow:0 16px 46px rgba(91,37,47,.09);
     backdrop-filter:blur(8px);
 }
@@ -183,8 +269,8 @@ h1{
 .main-card h2{
     margin:0 0 18px;
     font-family:"Cormorant Garamond",serif;
-    color:var(--rosso);
     font-size:clamp(36px,7vw,50px);
+    color:var(--rosso);
 }
 
 .description{
@@ -213,14 +299,23 @@ h1{
     line-height:1.7;
 }
 
-.degree strong{color:var(--rosso)}
+.degree strong{
+    color:var(--rosso);
+}
 
 .divider{
     width:120px;
     height:3px;
     margin:30px auto;
     border-radius:999px;
-    background:linear-gradient(90deg,transparent,var(--oro),var(--rosso),var(--oro),transparent);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--oro),
+        var(--rosso),
+        var(--oro),
+        transparent
+    );
 }
 
 .quote{
@@ -233,18 +328,19 @@ h1{
 }
 
 /* SEZIONE TRAGUARDO */
+
 .milestone{
     margin-top:34px;
     padding:34px 24px;
     text-align:center;
     border-radius:28px;
-    background:linear-gradient(145deg,rgba(139,30,45,.96),rgba(111,18,32,.96));
+    background:linear-gradient(145deg,rgba(139,30,45,.97),rgba(105,16,30,.97));
     color:white;
     box-shadow:0 18px 46px rgba(91,37,47,.18);
 }
 
 .milestone .mini{
-    color:var(--oro2);
+    color:var(--oro-chiaro);
     text-transform:uppercase;
     letter-spacing:2px;
     font-size:12px;
@@ -252,8 +348,8 @@ h1{
 }
 
 .milestone h3{
-    margin:10px auto 12px;
     max-width:700px;
+    margin:10px auto 12px;
     font-family:"Cormorant Garamond",serif;
     font-size:clamp(34px,6vw,50px);
     line-height:1;
@@ -267,16 +363,17 @@ h1{
 }
 
 /* GALLERIA */
+
 .gallery-section{
     margin-top:38px;
 }
 
 .section-title{
+    margin:0 0 18px;
     text-align:center;
     font-family:"Cormorant Garamond",serif;
     color:var(--rosso);
     font-size:36px;
-    margin:0 0 18px;
 }
 
 .gallery{
@@ -286,12 +383,12 @@ h1{
 }
 
 .gallery-item{
+    min-height:170px;
     position:relative;
     overflow:hidden;
+    border:1px solid rgba(197,162,83,.42);
     border-radius:20px;
     background:rgba(255,255,255,.65);
-    border:1px solid rgba(197,162,83,.42);
-    min-height:170px;
     box-shadow:0 10px 28px rgba(90,35,45,.08);
 }
 
@@ -299,8 +396,8 @@ h1{
     width:100%;
     height:100%;
     min-height:170px;
-    object-fit:cover;
     display:block;
+    object-fit:cover;
 }
 
 .gallery-placeholder{
@@ -315,20 +412,21 @@ h1{
 }
 
 /* SEGRETO NFC */
+
 .secret{
     margin-top:36px;
-    text-align:center;
     padding:28px 22px;
-    border-radius:24px;
+    text-align:center;
     border:1px dashed rgba(139,30,45,.38);
+    border-radius:24px;
     background:rgba(139,30,45,.055);
 }
 
 .secret strong{
     display:block;
     margin-bottom:8px;
-    color:var(--rosso);
     font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
     font-size:28px;
 }
 
@@ -339,6 +437,7 @@ h1{
 }
 
 /* SIGILLO */
+
 .seal-wrap{
     display:flex;
     justify-content:center;
@@ -348,7 +447,6 @@ h1{
 .seal{
     width:190px;
     height:190px;
-    border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -357,6 +455,7 @@ h1{
     border:2px solid var(--oro);
     outline:1px solid rgba(139,30,45,.3);
     outline-offset:7px;
+    border-radius:50%;
     background:rgba(255,255,255,.62);
     box-shadow:0 14px 38px rgba(91,37,47,.08);
 }
@@ -370,64 +469,130 @@ h1{
     font-weight:700;
 }
 
-.seal .seal-icon{
+.seal-icon{
     display:block;
-    font-size:34px;
     margin-bottom:7px;
+    font-size:34px;
     letter-spacing:0;
 }
 
+/* FOOTER */
+
 footer{
-    text-align:center;
     margin-top:30px;
+    text-align:center;
     color:var(--muted);
     font-size:13px;
+    line-height:1.7;
+}
+
+.credit{
+    margin-top:8px;
+    font-size:12px;
+    opacity:.82;
 }
 
 @media (max-width:650px){
-    .page{padding:20px 14px 44px}
-    .hero{padding-top:22px}
-    .subtitle{font-size:16px}
-    .main-card{padding:30px 18px}
-    .gallery{grid-template-columns:1fr}
+    .page{
+        padding:20px 14px 44px;
+    }
+
+    .hero{
+        padding-top:22px;
+    }
+
+    .subtitle{
+        font-size:16px;
+    }
+
+    .main-card{
+        padding:30px 18px;
+    }
+
+    .gallery{
+        grid-template-columns:1fr;
+    }
+
     .gallery-item,
     .gallery-item img,
-    .gallery-placeholder{min-height:250px}
+    .gallery-placeholder{
+        min-height:250px;
+    }
+
+    .intro-icons{
+        font-size:44px;
+    }
 }
 </style>
 </head>
 
 <body>
+
+<!-- =====================================================
+     SCHERMATA INIZIALE
+===================================================== -->
+<div class="intro" id="intro">
+    <div class="intro-content">
+        <div class="intro-icons">🌿 🎓 🌿</div>
+
+        <div class="intro-date">
+            18 Novembre 2026
+        </div>
+
+        <div class="intro-title">
+            Un nuovo capitolo<br>
+            ha inizio
+        </div>
+
+        <p class="intro-text">
+            Un piccolo ricordo di un giorno che resterà per sempre.
+        </p>
+    </div>
+</div>
+
 <!-- CORIANDOLI -->
 <div id="confetti-layer"></div>
 
+<!-- =====================================================
+     PAGINA PRINCIPALE
+===================================================== -->
 <div class="page">
 
     <section class="hero">
         <div class="hero-symbol">🎓</div>
 
-        <div class="badge">18 Novembre 2026</div>
+        <div class="badge">
+            18 Novembre 2026
+        </div>
 
-        <h1>Angela Mazzella</h1>
+        <h1>
+            Angela Mazzella
+        </h1>
 
         <p class="subtitle">
             Dott.ssa in Ingegneria Civile-Edile
         </p>
 
         <div class="ornament">
-            <span></span>
-            <b>✦</b>
-            <span></span>
+            <span class="line"></span>
+            <span class="star">✦</span>
+            <span class="line right"></span>
         </div>
     </section>
-<!-- FOTO -->
+
+    <!-- FOTO PRINCIPALE -->
     <div class="photo-card">
-        <img src="media/images/angela.jpeg" alt="Angela Mazzella">
+        <img
+            src="media/images/angela.jpeg"
+            alt="Angela Mazzella"
+        >
     </div>
 
-    <!-- CARD -->
+    <!-- CARD PRINCIPALE -->
     <section class="main-card">
-        <h2>Ce l'ha fatta! 🎓</h2>
+        <h2>
+            Ce l'ha fatta! 🎓
+        </h2>
 
         <p class="description">
             Dopo anni di studio, esami, sacrifici e soddisfazioni,
@@ -435,7 +600,9 @@ footer{
             Un percorso costruito passo dopo passo, fino a questo giorno.
         </p>
 
-        <div class="date">18 · 11 · 2026</div>
+        <div class="date">
+            18 · 11 · 2026
+        </div>
 
         <p class="degree">
             Laurea Triennale<br>
@@ -451,51 +618,72 @@ footer{
 
     <!-- TRAGUARDO -->
     <section class="milestone">
-        <div class="mini">Un traguardo costruito passo dopo passo</div>
-        <h3>Esame dopo esame. Sacrificio dopo sacrificio.</h3>
+        <div class="mini">
+            Un traguardo costruito passo dopo passo
+        </div>
+
+        <h3>
+            Esame dopo esame.<br>
+            Sacrificio dopo sacrificio.
+        </h3>
+
         <p>
-            Oggi quel percorso ha un nome: <strong>Dottoressa.</strong><br>
+            Oggi quel percorso ha un nome:
+            <strong>Dottoressa.</strong><br>
             E da qui comincia tutto ciò che verrà dopo.
         </p>
     </section>
 
     <!-- GALLERIA -->
     <section class="gallery-section">
-        <h3 class="section-title">Ricordi di questo giorno</h3>
+        <h3 class="section-title">
+            Ricordi di questo giorno
+        </h3>
 
         <div class="gallery">
+
             <div class="gallery-item">
-                <img src="media/images/foto1.jpeg"
-                     alt="Ricordo della laurea"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img
+                    src="media/images/foto1.jpeg"
+                    alt="Ricordo della laurea"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                >
                 <div class="gallery-placeholder" style="display:none;">
-                    📸 Carica una foto chiamata <strong>&nbsp;foto1.jpeg</strong>
+                    📸 Carica una foto chiamata&nbsp;<strong>foto1.jpeg</strong>
                 </div>
             </div>
 
             <div class="gallery-item">
-                <img src="media/images/foto2.jpeg"
-                     alt="Ricordo della laurea"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img
+                    src="media/images/foto2.jpeg"
+                    alt="Ricordo della laurea"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                >
                 <div class="gallery-placeholder" style="display:none;">
-                    📸 Carica una foto chiamata <strong>&nbsp;foto2.jpeg</strong>
+                    📸 Carica una foto chiamata&nbsp;<strong>foto2.jpeg</strong>
                 </div>
             </div>
 
             <div class="gallery-item">
-                <img src="media/images/foto3.jpeg"
-                     alt="Ricordo della laurea"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img
+                    src="media/images/foto3.jpeg"
+                    alt="Ricordo della laurea"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                >
                 <div class="gallery-placeholder" style="display:none;">
-                    📸 Carica una foto chiamata <strong>&nbsp;foto3.jpeg</strong>
+                    📸 Carica una foto chiamata&nbsp;<strong>foto3.jpeg</strong>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- NFC -->
+    <!-- SEGRETO NFC -->
     <section class="secret">
-        <strong>Hai trovato il segreto del cappellino 🎓</strong>
+        <strong>
+            Hai trovato il segreto del cappellino 🎓
+        </strong>
+
         <p>
             Questo piccolo ricordo nascondeva qualcosa in più.
             Grazie per aver condiviso con Angela un giorno così importante. ❤️
@@ -514,9 +702,13 @@ footer{
         </div>
     </div>
 
+    <!-- FOOTER -->
     <footer>
-        18 Novembre 2026 · Un giorno da ricordare ✨
-        <div style="margin-top:10px; font-size:12px; opacity:0.8;">
+        <div>
+            18 Novembre 2026 · Un giorno da ricordare ✨
+        </div>
+
+        <div class="credit">
             Sito creato e ideato da Adriano Di Maio
         </div>
     </footer>
@@ -524,6 +716,38 @@ footer{
 </div>
 
 <script>
+/* =========================================================
+   INTRO
+   - si chiude dopo 2,6 secondi
+   - c'è anche una sicurezza a 4 secondi
+========================================================= */
+
+const intro = document.getElementById("intro");
+
+function closeIntro(){
+    if(intro){
+        intro.classList.add("hide");
+    }
+}
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        closeIntro();
+        launchConfetti();
+    }, 2600);
+
+    // Sicurezza: se per qualsiasi motivo qualcosa andasse storto,
+    // l'intro viene comunque nascosta.
+    setTimeout(closeIntro, 4000);
+});
+
+/* =========================================================
+   CORIANDOLI
+   - nessuna rotazione
+   - caduta lenta
+   - dissolvenza solo negli ultimi 15%
+========================================================= */
+
 const confettiLayer = document.getElementById("confetti-layer");
 
 const confettiColors = [
@@ -543,29 +767,45 @@ function launchConfetti(){
 
         const width = 5 + Math.random() * 6;
         const height = 9 + Math.random() * 8;
-        const drift = -28 + Math.random() * 56;
 
-        piece.style.left = Math.random() * 100 + "vw";
-        piece.style.width = width + "px";
-        piece.style.height = height + "px";
+        // Piccola deriva laterale, niente curve e niente rotazioni.
+        const drift = -24 + Math.random() * 48;
+
+        piece.style.left =
+            Math.random() * 100 + "vw";
+
+        piece.style.width =
+            width + "px";
+
+        piece.style.height =
+            height + "px";
+
         piece.style.backgroundColor =
-            confettiColors[Math.floor(Math.random() * confettiColors.length)];
+            confettiColors[
+                Math.floor(Math.random() * confettiColors.length)
+            ];
 
-        piece.style.setProperty("--drift", drift + "px");
-        piece.style.animationDuration = (7 + Math.random() * 4) + "s";
-        piece.style.animationDelay = (Math.random() * 1.2) + "s";
+        piece.style.setProperty(
+            "--drift",
+            drift + "px"
+        );
+
+        // Caduta lenta: circa 8-12 secondi.
+        piece.style.animationDuration =
+            (8 + Math.random() * 4) + "s";
+
+        // Partenza leggermente sfalsata.
+        piece.style.animationDelay =
+            (Math.random() * 1.4) + "s";
 
         confettiLayer.appendChild(piece);
 
+        // Viene rimosso esattamente quando finisce la sua animazione.
         piece.addEventListener("animationend", () => {
             piece.remove();
         });
     }
 }
-
-window.addEventListener("load", () => {
-    setTimeout(launchConfetti, 250);
-});
 </script>
 
 </body>
