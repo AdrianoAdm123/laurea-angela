@@ -386,80 +386,40 @@ h1{
     line-height:1.7;
 }
 
-/* GALLERIA */
+/* MESSAGGIO FESTA */
 
-.gallery-section{
-    margin-top:38px;
-}
-
-.section-title{
-    margin:0 0 18px;
-    text-align:center;
-    font-family:"Cormorant Garamond",serif;
-    color:var(--rosso);
-    font-size:36px;
-}
-
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.gallery-item{
-    min-height:170px;
-    position:relative;
-    overflow:hidden;
-    border:1px solid rgba(197,162,83,.42);
-    border-radius:20px;
-    background:rgba(255,255,255,.65);
-    box-shadow:0 10px 28px rgba(90,35,45,.08);
-}
-
-.gallery-item img{
-    width:100%;
-    height:100%;
-    min-height:170px;
-    display:block;
-    object-fit:cover;
-}
-
-.gallery-placeholder{
-    min-height:170px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:20px;
-    color:var(--muted);
-    font-size:14px;
-}
-
-/* SEGRETO NFC */
-
-.secret{
+.celebration{
     margin-top:36px;
-    padding:28px 22px;
+    padding:34px 24px;
     text-align:center;
-    border:1px dashed rgba(139,30,45,.38);
-    border-radius:24px;
-    background:rgba(139,30,45,.055);
+    border:1px solid rgba(197,162,83,.52);
+    border-radius:28px;
+    background:rgba(255,255,255,.72);
+    box-shadow:0 14px 40px rgba(91,37,47,.09);
 }
 
-.secret strong{
+.celebration .icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.celebration strong{
     display:block;
-    margin-bottom:8px;
+    margin-bottom:10px;
     font-family:"Cormorant Garamond",serif;
     color:var(--rosso);
-    font-size:28px;
+    font-size:32px;
 }
 
-.secret p{
-    margin:0;
+.celebration p{
+    max-width:650px;
+    margin:0 auto;
     color:var(--muted);
-    line-height:1.65;
+    font-size:16px;
+    line-height:1.7;
 }
 
+/* SIGILLO */
 /* SIGILLO */
 
 .seal-wrap{
@@ -533,16 +493,6 @@ footer{
         padding:30px 18px;
     }
 
-    .gallery{
-        grid-template-columns:1fr;
-    }
-
-    .gallery-item,
-    .gallery-item img,
-    .gallery-placeholder{
-        min-height:250px;
-    }
-
     .intro-icons{
         font-size:44px;
     }
@@ -594,7 +544,7 @@ footer{
         </h1>
 
         <p class="subtitle">
-            Dott.ssa in Ingegneria Civile e Ambientale
+            Dott.ssa in Ingegneria Civile-Edile
         </p>
 
         <div class="ornament">
@@ -630,7 +580,7 @@ footer{
 
         <p class="degree">
             Laurea Triennale<br>
-            <strong>in Ingegneria Civile e Ambientale</strong>
+            <strong>in Ingegneria Civile-Edile</strong>
         </p>
 
         <div class="divider"></div>
@@ -657,71 +607,29 @@ footer{
             E da qui comincia tutto ciò che verrà dopo.
         </p>
     </section>
+    <!-- MESSAGGIO PER GLI INVITATI -->
+    <section class="celebration">
+        <div class="icon">🥂🎓</div>
 
-    <!-- GALLERIA -->
-    <section class="gallery-section">
-        <h3 class="section-title">
-            Ricordi di questo giorno
-        </h3>
-
-        <div class="gallery">
-
-            <div class="gallery-item">
-                <img
-                    src="media/images/foto1.jpeg"
-                    alt="Ricordo della laurea"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                >
-                <div class="gallery-placeholder" style="display:none;">
-                    📸 Carica una foto chiamata&nbsp;<strong>foto1.jpeg</strong>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img
-                    src="media/images/foto2.jpeg"
-                    alt="Ricordo della laurea"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                >
-                <div class="gallery-placeholder" style="display:none;">
-                    📸 Carica una foto chiamata&nbsp;<strong>foto2.jpeg</strong>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img
-                    src="media/images/foto3.jpeg"
-                    alt="Ricordo della laurea"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                >
-                <div class="gallery-placeholder" style="display:none;">
-                    📸 Carica una foto chiamata&nbsp;<strong>foto3.jpeg</strong>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- SEGRETO NFC -->
-    <section class="secret">
         <strong>
-            Hai trovato il segreto del cappellino 🎓
+            Benvenuti alla festa di laurea di Angela
         </strong>
 
         <p>
-            Questo piccolo ricordo nascondeva qualcosa in più.
-            Grazie per aver condiviso con Angela un giorno così importante. ❤️
+            Grazie per essere qui e per condividere con lei
+            questo giorno così importante.
+            Oggi si festeggia un traguardo raggiunto con impegno,
+            sacrificio e tanta determinazione. ❤️
         </p>
     </section>
-
-    <!-- SIGILLO -->
+<!-- SIGILLO -->
     <div class="seal-wrap">
         <div class="seal">
             <div>
                 <span class="seal-icon">🌿🎓🌿</span>
                 Angela Mazzella<br>
                 2026<br>
-                Ingegneria Civile e Ambientale
+                Ingegneria Civile-Edile
             </div>
         </div>
     </div>
