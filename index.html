@@ -1,215 +1,173 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-    <title>Laurea di Angela Mazzella 🎓</title>
+    :root {
+        --rosso-laurea: #8b1e2d;
+        --rosso-chiaro: #b83246;
+        --oro: #c7a253;
+        --avorio: #faf7f0;
+        --avorio-scuro: #efe7d7;
+        --testo: #2b2323;
+    }
 
-    <meta name="description" content="Un piccolo ricordo della laurea di Angela Mazzella">
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background:
+            radial-gradient(circle at top, #fffaf3 0%, var(--avorio) 45%, var(--avorio-scuro) 100%);
+        color: var(--testo);
+        min-height: 100vh;
+    }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    .page {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px 60px;
+    }
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    .hero {
+        text-align: center;
+        padding: 50px 20px 30px;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    .badge {
+        display: inline-block;
+        padding: 9px 15px;
+        border: 1px solid rgba(139,30,45,0.25);
+        border-radius: 999px;
+        background: rgba(139,30,45,0.08);
+        color: var(--rosso-laurea);
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 22px;
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background:
-                radial-gradient(circle at top, #f6f0df 0%, #efe4c6 45%, #e7d6a9 100%);
-            color: #2b2b2b;
-            min-height: 100vh;
-        }
+    h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(42px, 8vw, 76px);
+        margin: 0;
+        line-height: 1.05;
+        color: var(--rosso-laurea);
+        text-shadow: 0 2px 0 rgba(255,255,255,0.5);
+    }
 
+    .subtitle {
+        font-size: 20px;
+        margin-top: 16px;
+        color: #5f4a4d;
+    }
+
+    .photo-card {
+        margin: 30px auto;
+        max-width: 520px;
+        background: rgba(255,255,255,0.82);
+        padding: 14px;
+        border-radius: 28px;
+        border: 2px solid rgba(199,162,83,0.55);
+        box-shadow:
+            0 18px 60px rgba(86,35,44,0.18),
+            0 0 0 6px rgba(255,255,255,0.28);
+    }
+
+    .photo-card img {
+        width: 100%;
+        display: block;
+        border-radius: 20px;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+    }
+
+    .main-card {
+        margin-top: 30px;
+        background: rgba(255,255,255,0.72);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(199,162,83,0.45);
+        border-radius: 28px;
+        padding: 32px 24px;
+        text-align: center;
+        box-shadow: 0 18px 50px rgba(86,35,44,0.10);
+    }
+
+    .main-card h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 34px;
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: var(--rosso-laurea);
+    }
+
+    .date {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: 800;
+        margin: 16px 0;
+        padding: 10px 18px;
+        border-radius: 999px;
+        background: var(--rosso-laurea);
+        color: white;
+        box-shadow: 0 8px 20px rgba(139,30,45,0.20);
+        letter-spacing: 1px;
+    }
+
+    .course {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #4f4243;
+    }
+
+    .divider {
+        width: 90px;
+        height: 3px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--oro),
+            var(--rosso-laurea),
+            var(--oro),
+            transparent
+        );
+        margin: 28px auto;
+        border-radius: 999px;
+    }
+
+    .message {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        line-height: 1.5;
+        color: var(--rosso-laurea);
+    }
+
+    .small {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #7a6669;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 45px;
+        font-size: 14px;
+        color: #6d5b5d;
+    }
+
+    @media (max-width: 600px) {
         .page {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px 60px;
+            padding: 20px 14px 40px;
         }
 
         .hero {
-            text-align: center;
-            padding: 50px 20px 30px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 8px 14px;
-            border: 1px solid rgba(0,0,0,0.15);
-            border-radius: 999px;
-            background: rgba(255,255,255,0.45);
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 22px;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(42px, 8vw, 76px);
-            margin: 0;
-            line-height: 1.05;
-        }
-
-        .subtitle {
-            font-size: 20px;
-            margin-top: 16px;
-            opacity: 0.8;
-        }
-
-        .photo-card {
-            margin: 30px auto;
-            max-width: 520px;
-            background: rgba(255,255,255,0.55);
-            padding: 14px;
-            border-radius: 28px;
-            box-shadow: 0 18px 60px rgba(0,0,0,0.12);
-        }
-
-        .photo-card img {
-            width: 100%;
-            display: block;
-            border-radius: 20px;
-            aspect-ratio: 4 / 5;
-            object-fit: cover;
+            padding-top: 30px;
         }
 
         .main-card {
-            margin-top: 30px;
-            background: rgba(255,255,255,0.55);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.6);
-            border-radius: 28px;
-            padding: 32px 24px;
-            text-align: center;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.08);
-        }
-
-        .main-card h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 34px;
-            margin-top: 0;
-            margin-bottom: 16px;
+            padding: 26px 18px;
         }
 
         .date {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 16px 0;
+            font-size: 20px;
         }
-
-        .course {
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .divider {
-            width: 70px;
-            height: 2px;
-            background: rgba(0,0,0,0.25);
-            margin: 28px auto;
-        }
-
-        .message {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            line-height: 1.5;
-        }
-
-        .small {
-            margin-top: 30px;
-            font-size: 14px;
-            opacity: 0.65;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 45px;
-            font-size: 14px;
-            opacity: 0.65;
-        }
-
-        @media (max-width: 600px) {
-            .page {
-                padding: 20px 14px 40px;
-            }
-
-            .hero {
-                padding-top: 30px;
-            }
-
-            .main-card {
-                padding: 26px 18px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="page">
-
-        <section class="hero">
-
-            <div class="badge">🎓 Un giorno da ricordare</div>
-
-            <h1>Angela Mazzella</h1>
-
-            <p class="subtitle">
-                Dott.ssa in Ingegneria Civile-Edile
-            </p>
-
-        </section>
-
-
-        <div class="photo-card">
-            <img src="media/images/angela.jpeg" alt="Angela Mazzella">
-        </div>
-
-
-        <section class="main-card">
-
-            <h2>Ce l'ha fatta 🎓</h2>
-
-            <p class="course">
-                Dopo anni di studio, esami, sacrifici e soddisfazioni,
-                Angela ha raggiunto un traguardo importante.
-            </p>
-
-            <div class="date">
-                18 · 11 · 2026
-            </div>
-
-            <p class="course">
-                Laurea Triennale<br>
-                in Ingegneria Civile-Edile
-            </p>
-
-            <div class="divider"></div>
-
-            <p class="message">
-                “Un piccolo ricordo di un grande traguardo.”
-            </p>
-
-            <p class="small">
-                Se hai trovato questa pagina grazie al cappellino,
-                hai scoperto il suo piccolo segreto ✨
-            </p>
-
-        </section>
-
-
-        <div class="footer">
-            Con affetto, per ricordare questo giorno speciale ❤️
-        </div>
-
-    </div>
-
-</body>
-</html>
+    }
+</style>
