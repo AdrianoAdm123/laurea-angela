@@ -98,7 +98,487 @@ body.intro-open{overflow:hidden}
     to{opacity:1;transform:translateY(0) scale(1)}
 }
 
-/* CORIANDOLI: CADUTA NATURALE SENZA ROTAZIONE */
+/* CORIANDOLI */
+#confetti-canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:9999;
+}
+
+/* PAGINA */
+
+.page{
+    width:100%;
+    max-width:900px;
+    margin:0 auto;
+    padding:34px 18px 64px;
+}
+
+.hero{
+    text-align:center;
+    padding:34px 12px 20px;
+}
+
+.hero-symbol{
+    font-size:54px;
+    margin-bottom:12px;
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{transform:translateY(-5px)}
+}
+
+.badge{
+    display:inline-block;
+    padding:9px 17px;
+    border:1px solid rgba(139,30,45,.24);
+    border-radius:999px;
+    background:rgba(139,30,45,.07);
+    color:var(--rosso);
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+h1{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(48px,8vw,82px);
+    line-height:.95;
+    margin:0;
+    color:var(--rosso);
+}
+
+.subtitle{
+    margin:14px 0 0;
+    color:var(--muted);
+    font-size:18px;
+}
+
+.ornament{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:11px;
+    margin:24px 0 10px;
+}
+
+.ornament span:first-child,
+.ornament span:last-child{
+    width:68px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--oro));
+}
+
+.ornament span:last-child{
+    background:linear-gradient(90deg,var(--oro),transparent);
+}
+
+.ornament b{
+    color:var(--oro);
+    font-size:18px;
+}
+
+/* FOTO PRINCIPALE */
+.photo-card{
+    margin:0 auto 36px;
+    max-width:520px;
+    padding:11px;
+    border-radius:28px;
+    background:white;
+    border:2px solid var(--oro);
+    box-shadow:0 22px 58px rgba(91,37,47,.18);
+}
+
+.photo-card img{
+    width:100%;
+    display:block;
+    border-radius:19px;
+    aspect-ratio:4/5;
+    object-fit:cover;
+}
+
+/* CARD PRINCIPALE */
+.main-card{
+    text-align:center;
+    padding:38px 26px;
+    border-radius:28px;
+    background:rgba(255,255,255,.76);
+    border:1px solid rgba(197,162,83,.52);
+    box-shadow:0 16px 46px rgba(91,37,47,.09);
+    backdrop-filter:blur(8px);
+}
+
+.main-card h2{
+    margin:0 0 18px;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:clamp(36px,7vw,50px);
+}
+
+.description{
+    max-width:630px;
+    margin:0 auto;
+    color:#55464a;
+    font-size:17px;
+    line-height:1.75;
+}
+
+.date{
+    display:inline-block;
+    margin:24px 0;
+    padding:11px 21px;
+    border-radius:999px;
+    background:var(--rosso);
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:1.4px;
+    box-shadow:0 8px 22px rgba(139,30,45,.24);
+}
+
+.degree{
+    font-size:18px;
+    line-height:1.7;
+}
+
+.degree strong{color:var(--rosso)}
+
+.divider{
+    width:120px;
+    height:3px;
+    margin:30px auto;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,var(--oro),var(--rosso),var(--oro),transparent);
+}
+
+.quote{
+    max-width:620px;
+    margin:0 auto;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:28px;
+    line-height:1.35;
+}
+
+/* SEZIONE TRAGUARDO */
+.milestone{
+    margin-top:34px;
+    padding:34px 24px;
+    text-align:center;
+    border-radius:28px;
+    background:linear-gradient(145deg,rgba(139,30,45,.96),rgba(111,18,32,.96));
+    color:white;
+    box-shadow:0 18px 46px rgba(91,37,47,.18);
+}
+
+.milestone .mini{
+    color:var(--oro2);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.milestone h3{
+    margin:10px auto 12px;
+    max-width:700px;
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(34px,6vw,50px);
+    line-height:1;
+}
+
+.milestone p{
+    max-width:650px;
+    margin:0 auto;
+    color:#f7e9eb;
+    line-height:1.7;
+}
+
+/* GALLERIA */
+.gallery-section{
+    margin-top:38px;
+}
+
+.section-title{
+    text-align:center;
+    font-family:"Cormorant Garamond",serif;
+    color:var(--rosso);
+    font-size:36px;
+    margin:0 0 18px;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.gallery-item{
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    background:rgba(255,255,255,.65);
+    border:1px solid rgba(197,162,83,.42);
+    min-height:170px;
+    box-shadow:0 10px 28px rgba(90,35,45,.08);
+}
+
+.gallery-item img{
+    width:100%;
+    height:100%;
+    min-height:170px;
+    object-fit:cover;
+    display:block;
+}
+
+.gallery-placeholder{
+    min-height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* SEGRETO NFC */
+.secret{
+    margin-top:36px;
+    text-align:center;
+    padding:28px 22px;
+    border-radius:24px;
+    border:1px dashed rgba(139,30,45,.38);
+    background:rgba(139,30,45,.055);
+}
+
+.secret strong{
+    display:block;
+    margin-bottom:8px;
+    color:var(--rosso);
+    font-family:"Cormorant Garamond",serif;
+    font-size:28px;
+}
+
+.secret p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.65;
+}
+
+/* SIGILLO */
+.seal-wrap{
+    display:flex;
+    justify-content:center;
+    margin:42px 0 12px;
+}
+
+.seal{
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    border:2px solid var(--oro);
+    outline:1px solid rgba(139,30,45,.3);
+    outline-offset:7px;
+    background:rgba(255,255,255,.62);
+    box-shadow:0 14px 38px rgba(91,37,47,.08);
+}
+
+.seal div{
+    color:var(--rosso);
+    font-size:12px;
+    line-height:1.55;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    font-weight:700;
+}
+
+.seal .seal-icon{
+    display:block;
+    font-size:34px;
+    margin-bottom:7px;
+    letter-spacing:0;
+}
+
+footer{
+    text-align:center;
+    margin-top:30px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+@media (max-width:650px){
+    .page{padding:20px 14px 44px}
+    .hero{padding-top:22px}
+    .subtitle{font-size:16px}
+    .main-card{padding:30px 18px}
+    .gallery{grid-template-columns:1fr}
+    .gallery-item,
+    .gallery-item img,
+    .gallery-placeholder{min-height:250px}
+}
+</style>
+</head>
+
+<body class="intro-open">
+
+<!-- INTRO -->
+<div class="intro" id="intro">
+    <div class="intro-inner">
+        <div class="intro-laurel">🌿 🎓 🌿</div>
+        <div class="intro-date">18 Novembre 2026</div>
+        <h2>Un nuovo capitolo ha inizio</h2>
+        <p>Un piccolo ricordo di un giorno che resterà per sempre.</p>
+    </div>
+</div>
+
+<!-- CORIANDOLI -->
+<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+<div class="page">
+
+    <section class="hero">
+        <div class="hero-symbol">🎓</div>
+
+        <div class="badge">18 Novembre 2026</div>
+
+        <h1>Angela Mazzella</h1>
+
+        <p class="subtitle">
+            Dott.ssa in Ingegneria Civile-Edile
+        </p>
+
+        <div class="ornament">
+            <span></span>
+            <b>✦</b>
+            <span></span>
+        </div>
+    </section>
+<!-- FOTO -->
+    <div class="photo-card">
+        <img src="media/images/angela.jpeg" alt="Angela Mazzella">
+    </div>
+
+    <!-- CARD -->
+    <section class="main-card">
+        <h2>Ce l'ha fatta! 🎓</h2>
+
+        <p class="description">
+            Dopo anni di studio, esami, sacrifici e soddisfazioni,
+            Angela ha raggiunto un traguardo importante.
+            Un percorso costruito passo dopo passo, fino a questo giorno.
+        </p>
+
+        <div class="date">18 · 11 · 2026</div>
+
+        <p class="degree">
+            Laurea Triennale<br>
+            <strong>in Ingegneria Civile-Edile</strong>
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="quote">
+            “Un piccolo ricordo di un grande traguardo.”
+        </p>
+    </section>
+
+    <!-- TRAGUARDO -->
+    <section class="milestone">
+        <div class="mini">Un traguardo costruito passo dopo passo</div>
+        <h3>Esame dopo esame. Sacrificio dopo sacrificio.</h3>
+        <p>
+            Oggi quel percorso ha un nome: <strong>Dottoressa.</strong><br>
+            E da qui comincia tutto ciò che verrà dopo.
+        </p>
+    </section>
+
+    <!-- GALLERIA -->
+    <section class="gallery-section">
+        <h3 class="section-title">Ricordi di questo giorno</h3>
+
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="media/images/foto1.jpeg"
+                     alt="Ricordo della laurea"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    📸 Carica una foto chiamata <strong>&nbsp;foto1.jpeg</strong>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="media/images/foto2.jpeg"
+                     alt="Ricordo della laurea"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    📸 Carica una foto chiamata <strong>&nbsp;foto2.jpeg</strong>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="media/images/foto3.jpeg"
+                     alt="Ricordo della laurea"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    📸 Carica una foto chiamata <strong>&nbsp;foto3.jpeg</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NFC -->
+    <section class="secret">
+        <strong>Hai trovato il segreto del cappellino 🎓</strong>
+        <p>
+            Questo piccolo ricordo nascondeva qualcosa in più.
+            Grazie per aver condiviso con Angela un giorno così importante. ❤️
+        </p>
+    </section>
+
+    <!-- SIGILLO -->
+    <div class="seal-wrap">
+        <div class="seal">
+            <div>
+                <span class="seal-icon">🌿🎓🌿</span>
+                Angela Mazzella<br>
+                2026<br>
+                Ingegneria Civile-Edile
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        18 Novembre 2026 · Un giorno da ricordare ✨
+        <div style="margin-top:10px; font-size:12px; opacity:0.8;">
+            Sito creato e ideato da Adriano Di Maio
+        </div>
+    </footer>
+
+</div>
+
+<script>
+/* INTRO */
+const intro = document.getElementById("intro");
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        intro.classList.add("hide");
+        document.body.classList.remove("intro-open");
+        launchConfetti();
+    }, 2300);
+});
+
+/* CORIANDOLI - CADUTA VERTICALE NATURALE, SENZA ROTAZIONE */
 const confettiCanvas = document.getElementById("confetti-canvas");
 const confettiCtx = confettiCanvas.getContext("2d");
 
@@ -114,15 +594,15 @@ const confettiColors = [
 ];
 
 function resizeConfettiCanvas(){
-    const ratio = window.devicePixelRatio || 1;
+    const dpr = window.devicePixelRatio || 1;
 
-    confettiCanvas.width = window.innerWidth * ratio;
-    confettiCanvas.height = window.innerHeight * ratio;
+    confettiCanvas.width = Math.round(window.innerWidth * dpr);
+    confettiCanvas.height = Math.round(window.innerHeight * dpr);
 
     confettiCanvas.style.width = window.innerWidth + "px";
     confettiCanvas.style.height = window.innerHeight + "px";
 
-    confettiCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    confettiCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
 window.addEventListener("resize", resizeConfettiCanvas);
@@ -131,22 +611,22 @@ resizeConfettiCanvas();
 function createConfettiPiece(){
     return {
         x: Math.random() * window.innerWidth,
-        y: -30 - Math.random() * 220,
+        y: -20 - Math.random() * 260,
 
-        // Leggero spostamento orizzontale iniziale.
-        vx: (Math.random() - 0.5) * 0.45,
+        // Leggerissima deriva laterale costante.
+        vx: (Math.random() - 0.5) * 0.35,
 
-        // Caduta verso il basso.
-        vy: 1.2 + Math.random() * 1.5,
-        gravity: 0.018 + Math.random() * 0.015,
+        // Velocità di caduta.
+        vy: 1.4 + Math.random() * 1.8,
+        gravity: 0.012 + Math.random() * 0.012,
 
         width: 5 + Math.random() * 6,
-        height: 9 + Math.random() * 9,
+        height: 9 + Math.random() * 8,
 
-        // Oscillazione molto lieve, senza cerchi e senza rotazione.
-        swayAmount: 0.12 + Math.random() * 0.22,
+        // Piccola oscillazione tipo aria, NON rotatoria.
+        swayPhase: Math.random() * Math.PI * 2,
         swaySpeed: 0.018 + Math.random() * 0.012,
-        swayOffset: Math.random() * Math.PI * 2,
+        swayAmount: 0.08 + Math.random() * 0.14,
 
         color: confettiColors[
             Math.floor(Math.random() * confettiColors.length)
@@ -154,7 +634,7 @@ function createConfettiPiece(){
 
         opacity: 0.95,
         age: 0,
-        delay: Math.floor(Math.random() * 50)
+        delay: Math.floor(Math.random() * 70)
     };
 }
 
@@ -165,7 +645,7 @@ function launchConfetti(){
 
     confettiPieces = [];
 
-    for(let i = 0; i < 120; i++){
+    for(let i = 0; i < 115; i++){
         confettiPieces.push(createConfettiPiece());
     }
 
@@ -180,50 +660,49 @@ function animateConfetti(){
         window.innerHeight
     );
 
-    let stillVisible = false;
+    let active = false;
 
-    confettiPieces.forEach(piece => {
+    for(const piece of confettiPieces){
         if(piece.delay > 0){
             piece.delay--;
-            stillVisible = true;
-            return;
+            active = true;
+            continue;
         }
 
         piece.age++;
-
         piece.vy += piece.gravity;
 
-        const sway =
-            Math.sin(piece.age * piece.swaySpeed + piece.swayOffset)
+        // Solo una lieve ondulazione orizzontale.
+        const breeze =
+            Math.sin(piece.swayPhase + piece.age * piece.swaySpeed)
             * piece.swayAmount;
 
-        piece.x += piece.vx + sway;
+        piece.x += piece.vx + breeze;
         piece.y += piece.vy;
 
-        if(piece.y > window.innerHeight * 0.88){
-            piece.opacity -= 0.02;
+        if(piece.y > window.innerHeight * 0.90){
+            piece.opacity -= 0.025;
         }
 
-        if(piece.opacity > 0 && piece.y < window.innerHeight + 50){
-            stillVisible = true;
+        if(piece.opacity > 0 && piece.y < window.innerHeight + 40){
+            active = true;
         }
 
-        confettiCtx.save();
         confettiCtx.globalAlpha = Math.max(piece.opacity, 0);
         confettiCtx.fillStyle = piece.color;
 
-        // Rettangolo sempre dritto: nessuna rotazione.
+        // Nessuna rotate(): il coriandolo rimane sempre dritto.
         confettiCtx.fillRect(
             piece.x - piece.width / 2,
             piece.y - piece.height / 2,
             piece.width,
             piece.height
         );
+    }
 
-        confettiCtx.restore();
-    });
+    confettiCtx.globalAlpha = 1;
 
-    if(stillVisible){
+    if(active){
         confettiAnimationId = requestAnimationFrame(animateConfetti);
     }else{
         confettiCtx.clearRect(
