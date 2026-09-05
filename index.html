@@ -583,21 +583,64 @@ h1{
 }
 
 .party-photo{
+    --photo-bg:none;
+    position:relative;
+    isolation:isolate;
     flex:0 0 min(78vw,360px);
+    height:420px;
     scroll-snap-align:center;
     overflow:hidden;
     border:2px solid rgba(197,162,83,.72);
     border-radius:22px;
-    background:#fff;
+    background:#241b1d;
     box-shadow:0 12px 34px rgba(91,37,47,.12);
+    cursor:zoom-in;
+}
+
+.party-photo::before{
+    content:"";
+    position:absolute;
+    inset:-28px;
+    z-index:0;
+    background-image:var(--photo-bg);
+    background-size:cover;
+    background-position:center;
+    filter:blur(22px) brightness(.66);
+    transform:scale(1.10);
+    opacity:.9;
+}
+
+.party-photo::after{
+    content:"Tocca per ingrandire";
+    position:absolute;
+    left:50%;
+    bottom:12px;
+    z-index:2;
+    transform:translateX(-50%);
+    padding:7px 11px;
+    border-radius:999px;
+    background:rgba(20,12,14,.62);
+    color:white;
+    font-size:11px;
+    font-weight:700;
+    white-space:nowrap;
+    opacity:0;
+    transition:opacity .2s ease;
+    pointer-events:none;
+}
+
+.party-photo:hover::after{
+    opacity:1;
 }
 
 .party-photo img{
+    position:relative;
+    z-index:1;
     width:100%;
-    height:420px;
+    height:100%;
     display:block;
     object-fit:contain;
-    background:#f4eee2;
+    background:transparent;
 }
 
 .party-gallery-empty{
@@ -624,11 +667,13 @@ h1{
     }
 
     .party-photo{
-        flex-basis:84vw;
+        flex-basis:82vw;
+        height:380px;
     }
 
-    .party-photo img{
-        height:420px;
+    .party-photo::after{
+        opacity:1;
+        bottom:10px;
     }
 }
 
@@ -742,6 +787,143 @@ h1{
     .photo-preview-confirm,
     .photo-preview-cancel{
         width:100%;
+    }
+}
+
+/* =========================================================
+   VISUALIZZAZIONE FOTO A TUTTO SCHERMO
+========================================================= */
+.gallery-lightbox{
+    position:fixed;
+    inset:0;
+    z-index:40000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(12,8,10,.94);
+    backdrop-filter:blur(8px);
+    overscroll-behavior:contain;
+}
+
+.gallery-lightbox.open{
+    display:flex;
+}
+
+.gallery-lightbox-stage{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:64px 70px 58px;
+    overflow:hidden;
+}
+
+.gallery-lightbox-image{
+    display:block;
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    border-radius:10px;
+    box-shadow:0 22px 70px rgba(0,0,0,.45);
+    user-select:none;
+    -webkit-user-drag:none;
+}
+
+.gallery-lightbox-close,
+.gallery-lightbox-nav{
+    position:absolute;
+    z-index:3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,.28);
+    background:rgba(255,255,255,.13);
+    color:white;
+    backdrop-filter:blur(8px);
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+}
+
+.gallery-lightbox-close{
+    top:16px;
+    right:16px;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    font-size:31px;
+    line-height:1;
+}
+
+.gallery-lightbox-nav{
+    top:50%;
+    width:50px;
+    height:64px;
+    transform:translateY(-50%);
+    border-radius:16px;
+    font-size:37px;
+    line-height:1;
+}
+
+.gallery-lightbox-prev{
+    left:14px;
+}
+
+.gallery-lightbox-next{
+    right:14px;
+}
+
+.gallery-lightbox-counter{
+    position:absolute;
+    left:50%;
+    bottom:18px;
+    z-index:3;
+    transform:translateX(-50%);
+    padding:7px 12px;
+    border-radius:999px;
+    background:rgba(0,0,0,.46);
+    color:white;
+    font-size:13px;
+    font-weight:700;
+}
+
+.gallery-lightbox-nav:disabled{
+    opacity:.28;
+    cursor:default;
+}
+
+@media (max-width:650px){
+    .gallery-lightbox-stage{
+        padding:64px 12px 64px;
+    }
+
+    .gallery-lightbox-nav{
+        top:auto;
+        bottom:12px;
+        width:52px;
+        height:46px;
+        transform:none;
+        border-radius:14px;
+        font-size:32px;
+    }
+
+    .gallery-lightbox-prev{
+        left:14px;
+    }
+
+    .gallery-lightbox-next{
+        right:14px;
+    }
+
+    .gallery-lightbox-counter{
+        bottom:21px;
+    }
+
+    .gallery-lightbox-image{
+        max-height:calc(100dvh - 135px);
     }
 }
 
@@ -1080,6 +1262,26 @@ footer{
     </div>
 </div>
 
+
+<!-- FOTO A TUTTO SCHERMO -->
+<div class="gallery-lightbox" id="gallery-lightbox" aria-hidden="true">
+    <div class="gallery-lightbox-stage" id="gallery-lightbox-stage">
+        <button class="gallery-lightbox-close" id="gallery-lightbox-close" type="button" aria-label="Chiudi">×</button>
+
+        <button class="gallery-lightbox-nav gallery-lightbox-prev" id="gallery-lightbox-prev" type="button" aria-label="Foto precedente">‹</button>
+
+        <img
+            class="gallery-lightbox-image"
+            id="gallery-lightbox-image"
+            alt="Foto della festa ingrandita"
+        >
+
+        <button class="gallery-lightbox-nav gallery-lightbox-next" id="gallery-lightbox-next" type="button" aria-label="Foto successiva">›</button>
+
+        <div class="gallery-lightbox-counter" id="gallery-lightbox-counter"></div>
+    </div>
+</div>
+
 <script>
 /* =========================================================
    INTRO
@@ -1227,6 +1429,15 @@ const loginStatus = document.getElementById("login-status");
 const uploadStatus = document.getElementById("upload-status");
 const partyPhotoInput = document.getElementById("party-photo-input");
 const partyGallery = document.getElementById("party-gallery");
+
+const galleryLightbox = document.getElementById("gallery-lightbox");
+const galleryLightboxStage = document.getElementById("gallery-lightbox-stage");
+const galleryLightboxImage = document.getElementById("gallery-lightbox-image");
+const galleryLightboxClose = document.getElementById("gallery-lightbox-close");
+const galleryLightboxPrev = document.getElementById("gallery-lightbox-prev");
+const galleryLightboxNext = document.getElementById("gallery-lightbox-next");
+const galleryLightboxCounter = document.getElementById("gallery-lightbox-counter");
+
 const photoPreviewModal = document.getElementById("photo-preview-modal");
 const photoPreviewImage = document.getElementById("photo-preview-image");
 const photoPreviewConfirm = document.getElementById("photo-preview-confirm");
@@ -1234,6 +1445,11 @@ const photoPreviewCancel = document.getElementById("photo-preview-cancel");
 
 let gallerySession = sessionStorage.getItem(SESSION_KEY) || "";
 let galleryObjectUrls = [];
+
+let galleryDisplayPhotos = [];
+let galleryLightboxIndex = 0;
+let galleryLightboxTouchStartX = 0;
+
 let pendingPhotoFile = null;
 let pendingPreviewUrl = "";
 
@@ -1271,8 +1487,10 @@ function authHeaders(){
 }
 
 function clearGalleryObjectUrls(){
+    closeGalleryLightbox();
     galleryObjectUrls.forEach(url => URL.revokeObjectURL(url));
     galleryObjectUrls = [];
+    galleryDisplayPhotos = [];
 }
 
 function showLockedAlbum(){
@@ -1358,6 +1576,56 @@ async function fetchPrivateImage(name){
     return objectUrl;
 }
 
+
+function renderGalleryLightbox(){
+    if(!galleryDisplayPhotos.length) return;
+
+    if(galleryLightboxIndex < 0){
+        galleryLightboxIndex = galleryDisplayPhotos.length - 1;
+    }
+
+    if(galleryLightboxIndex >= galleryDisplayPhotos.length){
+        galleryLightboxIndex = 0;
+    }
+
+    const current = galleryDisplayPhotos[galleryLightboxIndex];
+    galleryLightboxImage.src = current.url;
+    galleryLightboxCounter.textContent =
+        (galleryLightboxIndex + 1) + " / " + galleryDisplayPhotos.length;
+
+    const onlyOne = galleryDisplayPhotos.length <= 1;
+    galleryLightboxPrev.style.display = onlyOne ? "none" : "flex";
+    galleryLightboxNext.style.display = onlyOne ? "none" : "flex";
+}
+
+function openGalleryLightbox(index){
+    if(!galleryDisplayPhotos.length) return;
+
+    galleryLightboxIndex = index;
+    renderGalleryLightbox();
+    galleryLightbox.classList.add("open");
+    galleryLightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+}
+
+function closeGalleryLightbox(){
+    if(!galleryLightbox) return;
+
+    galleryLightbox.classList.remove("open");
+    galleryLightbox.setAttribute("aria-hidden", "true");
+    galleryLightboxImage.removeAttribute("src");
+
+    if(!document.body.classList.contains("intro-open")){
+        document.body.style.overflow = "";
+    }
+}
+
+function moveGalleryLightbox(direction){
+    if(galleryDisplayPhotos.length <= 1) return;
+    galleryLightboxIndex += direction;
+    renderGalleryLightbox();
+}
+
 async function loadPartyPhotos(){
     if(!gallerySession) return;
 
@@ -1413,13 +1681,34 @@ async function loadPartyPhotos(){
         for(const photo of photos){
             const url = await fetchPrivateImage(photo.name);
 
+            const photoIndex = galleryDisplayPhotos.length;
+            galleryDisplayPhotos.push({
+                name: photo.name,
+                url
+            });
+
             const article = document.createElement("article");
             article.className = "party-photo";
+            article.style.setProperty("--photo-bg", `url("${url}")`);
+            article.setAttribute("role", "button");
+            article.setAttribute("tabindex", "0");
+            article.setAttribute("aria-label", "Apri la foto a tutto schermo");
 
             const img = document.createElement("img");
             img.src = url;
             img.alt = "Foto condivisa durante la festa di laurea";
             img.loading = "lazy";
+
+            article.addEventListener("click", () => {
+                openGalleryLightbox(photoIndex);
+            });
+
+            article.addEventListener("keydown", event => {
+                if(event.key === "Enter" || event.key === " "){
+                    event.preventDefault();
+                    openGalleryLightbox(photoIndex);
+                }
+            });
 
             article.appendChild(img);
             partyGallery.appendChild(article);
@@ -1619,6 +1908,56 @@ document.addEventListener("keydown", event => {
     if(event.key === "Escape" && photoPreviewModal.classList.contains("open") && !photoPreviewConfirm.disabled){
         closePhotoPreview();
         setUploadStatus("Caricamento annullato.");
+    }
+});
+
+
+galleryLightboxClose.addEventListener("click", closeGalleryLightbox);
+
+galleryLightboxPrev.addEventListener("click", event => {
+    event.stopPropagation();
+    moveGalleryLightbox(-1);
+});
+
+galleryLightboxNext.addEventListener("click", event => {
+    event.stopPropagation();
+    moveGalleryLightbox(1);
+});
+
+galleryLightbox.addEventListener("click", event => {
+    if(event.target === galleryLightbox || event.target === galleryLightboxStage){
+        closeGalleryLightbox();
+    }
+});
+
+galleryLightboxStage.addEventListener("touchstart", event => {
+    if(!event.touches || !event.touches.length) return;
+    galleryLightboxTouchStartX = event.touches[0].clientX;
+}, { passive:true });
+
+galleryLightboxStage.addEventListener("touchend", event => {
+    if(!event.changedTouches || !event.changedTouches.length) return;
+
+    const deltaX = event.changedTouches[0].clientX - galleryLightboxTouchStartX;
+
+    if(Math.abs(deltaX) < 45) return;
+
+    if(deltaX < 0){
+        moveGalleryLightbox(1);
+    }else{
+        moveGalleryLightbox(-1);
+    }
+}, { passive:true });
+
+document.addEventListener("keydown", event => {
+    if(!galleryLightbox.classList.contains("open")) return;
+
+    if(event.key === "Escape"){
+        closeGalleryLightbox();
+    }else if(event.key === "ArrowLeft"){
+        moveGalleryLightbox(-1);
+    }else if(event.key === "ArrowRight"){
+        moveGalleryLightbox(1);
     }
 });
 
