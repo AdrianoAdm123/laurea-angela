@@ -421,82 +421,141 @@ h1{
 
 
 /* =========================================================
-   ALBUM COLLABORATIVO DELLA FESTA
+   ALBUM PRIVATO CON PASSWORD
 ========================================================= */
 
-.upload-section{
+.album-section{
     margin-top:36px;
     padding:34px 24px;
-    text-align:center;
     border:1px solid rgba(197,162,83,.52);
     border-radius:28px;
     background:rgba(255,255,255,.78);
     box-shadow:0 14px 40px rgba(91,37,47,.09);
 }
 
-.upload-section h3{
-    margin:0 0 10px;
-    font-family:"Cormorant Garamond",serif;
-    color:var(--rosso);
-    font-size:34px;
-}
-
-.upload-section p{
-    max-width:650px;
-    margin:0 auto 20px;
-    color:var(--muted);
-    font-size:16px;
-    line-height:1.7;
-}
-
-.upload-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    min-height:52px;
-    padding:13px 22px;
-    border:0;
-    border-radius:999px;
-    background:var(--rosso);
-    color:#fff;
-    font:inherit;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 8px 22px rgba(139,30,45,.24);
-}
-
-#photo-input{
-    display:none;
-}
-
-.upload-status{
-    min-height:24px;
-    margin-top:15px;
-    color:var(--muted);
-    font-size:14px;
-}
-
-.upload-status.success{ color:#2d7044; }
-.upload-status.error{ color:#9a2636; }
-
-.party-gallery-section{
-    margin-top:38px;
-}
-
-.party-gallery-title{
-    margin:0 0 8px;
+.album-header{
     text-align:center;
+    margin-bottom:22px;
+}
+
+.album-header .icon{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.album-header h3{
+    margin:0 0 8px;
     font-family:"Cormorant Garamond",serif;
     color:var(--rosso);
     font-size:36px;
 }
 
-.party-gallery-subtitle{
-    margin:0 0 18px;
+.album-header p{
+    max-width:650px;
+    margin:0 auto;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.7;
+}
+
+.album-lock{
+    max-width:520px;
+    margin:22px auto 0;
+}
+
+.album-password-row{
+    display:flex;
+    gap:10px;
+}
+
+.album-password{
+    flex:1;
+    min-width:0;
+    height:52px;
+    padding:0 16px;
+    border:1px solid rgba(139,30,45,.28);
+    border-radius:14px;
+    background:#fff;
+    color:var(--testo);
+    font:inherit;
+    outline:none;
+}
+
+.album-password:focus{
+    border-color:var(--rosso);
+    box-shadow:0 0 0 3px rgba(139,30,45,.08);
+}
+
+.album-enter,
+.album-upload-btn,
+.album-logout{
+    min-height:52px;
+    border:0;
+    border-radius:14px;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.album-enter{
+    padding:0 20px;
+    background:var(--rosso);
+    color:#fff;
+    box-shadow:0 8px 22px rgba(139,30,45,.20);
+}
+
+.album-status{
+    min-height:22px;
+    margin-top:12px;
     text-align:center;
     color:var(--muted);
     font-size:14px;
+}
+
+.album-status.error{
+    color:#9a2636;
+}
+
+.album-status.success{
+    color:#2d7044;
+}
+
+.album-private{
+    display:none;
+}
+
+.album-private.open{
+    display:block;
+}
+
+.album-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.album-upload-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 20px;
+    background:var(--rosso);
+    color:#fff;
+    box-shadow:0 8px 22px rgba(139,30,45,.20);
+}
+
+.album-logout{
+    padding:0 18px;
+    background:rgba(139,30,45,.08);
+    color:var(--rosso);
+    border:1px solid rgba(139,30,45,.22);
+}
+
+#party-photo-input{
+    display:none;
 }
 
 .party-gallery{
@@ -504,7 +563,7 @@ h1{
     gap:14px;
     overflow-x:auto;
     scroll-snap-type:x mandatory;
-    padding:4px 3px 14px;
+    padding:4px 2px 14px;
     scrollbar-width:thin;
 }
 
@@ -528,7 +587,7 @@ h1{
 
 .party-gallery-empty{
     width:100%;
-    padding:28px 18px;
+    padding:30px 18px;
     text-align:center;
     border:1px dashed rgba(139,30,45,.28);
     border-radius:22px;
@@ -537,9 +596,25 @@ h1{
 }
 
 @media (max-width:650px){
-    .upload-section{ padding:28px 18px; }
-    .party-photo{ flex-basis:84vw; }
-    .party-photo img{ height:420px; }
+    .album-section{
+        padding:28px 18px;
+    }
+
+    .album-password-row{
+        flex-direction:column;
+    }
+
+    .album-enter{
+        width:100%;
+    }
+
+    .party-photo{
+        flex-basis:84vw;
+    }
+
+    .party-photo img{
+        height:420px;
+    }
 }
 
 /* SIGILLO */
@@ -746,39 +821,69 @@ footer{
         </p>
     </section>
 
-    <!-- ALBUM COLLABORATIVO -->
-    <section class="upload-section">
-        <h3>📸 Aggiungi un ricordo</h3>
+    <!-- ALBUM PRIVATO DELLA FESTA -->
+    <section class="album-section">
+        <div class="album-header">
+            <div class="icon">🔒📸</div>
 
-        <p>
-            Hai scattato una bella foto durante la festa?
-            Caricala qui: entrerà direttamente nell'album condiviso di Angela.
-        </p>
+            <h3>Album della festa</h3>
 
-        <label class="upload-btn" for="photo-input" id="upload-label">
-            📷 Carica una foto
-        </label>
+            <p>
+                Inserisci la password che trovi sul tavolo per vedere
+                e condividere le foto della festa di Angela.
+            </p>
+        </div>
 
-        <input
-            id="photo-input"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-        >
+        <div class="album-lock" id="album-lock">
+            <div class="album-password-row">
+                <input
+                    class="album-password"
+                    id="gallery-password"
+                    type="password"
+                    autocomplete="off"
+                    placeholder="Password della festa"
+                    aria-label="Password della festa"
+                >
 
-        <div class="upload-status" id="upload-status"></div>
-    </section>
+                <button
+                    class="album-enter"
+                    id="gallery-login"
+                    type="button"
+                >
+                    Entra
+                </button>
+            </div>
 
-    <!-- FOTO CARICATE DAGLI INVITATI -->
-    <section class="party-gallery-section">
-        <h3 class="party-gallery-title">I ricordi della festa</h3>
+            <div class="album-status" id="login-status"></div>
+        </div>
 
-        <p class="party-gallery-subtitle">
-            Scorri le foto condivise dagli invitati ↔
-        </p>
+        <div class="album-private" id="album-private">
+            <div class="album-toolbar">
+                <label class="album-upload-btn" for="party-photo-input">
+                    📷 Carica una foto
+                </label>
 
-        <div class="party-gallery" id="party-gallery">
-            <div class="party-gallery-empty">
-                Le foto condivise durante la festa appariranno qui ✨
+                <input
+                    id="party-photo-input"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                >
+
+                <button
+                    class="album-logout"
+                    id="gallery-logout"
+                    type="button"
+                >
+                    Esci dall'album
+                </button>
+            </div>
+
+            <div class="album-status" id="upload-status"></div>
+
+            <div class="party-gallery" id="party-gallery">
+                <div class="party-gallery-empty">
+                    Caricamento delle foto…
+                </div>
             </div>
         </div>
     </section>
@@ -938,52 +1043,157 @@ function launchConfetti(){
 }
 
 /* =========================================================
-   ALBUM COLLABORATIVO
-   Sostituisci l'indirizzo qui sotto con quello del Worker.
+   ALBUM PRIVATO
 ========================================================= */
 
-const PHOTO_API = "https://INSERISCI-QUI.workers.dev";
+const PHOTO_API = "https://angela-foto.tato-torrione.workers.dev";
+const SESSION_KEY = "angela_gallery_session";
 
-const photoInput = document.getElementById("photo-input");
+const galleryPassword = document.getElementById("gallery-password");
+const galleryLogin = document.getElementById("gallery-login");
+const galleryLogout = document.getElementById("gallery-logout");
+const albumLock = document.getElementById("album-lock");
+const albumPrivate = document.getElementById("album-private");
+const loginStatus = document.getElementById("login-status");
 const uploadStatus = document.getElementById("upload-status");
-const uploadLabel = document.getElementById("upload-label");
+const partyPhotoInput = document.getElementById("party-photo-input");
 const partyGallery = document.getElementById("party-gallery");
+
+let gallerySession = sessionStorage.getItem(SESSION_KEY) || "";
+let galleryObjectUrls = [];
+
+function setLoginStatus(message, type = ""){
+    loginStatus.textContent = message;
+    loginStatus.className = "album-status" + (type ? " " + type : "");
+}
 
 function setUploadStatus(message, type = ""){
     uploadStatus.textContent = message;
-    uploadStatus.className = "upload-status" + (type ? " " + type : "");
+    uploadStatus.className = "album-status" + (type ? " " + type : "");
 }
 
-function escapeHtml(value){
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+function authHeaders(){
+    return {
+        "Authorization": "Bearer " + gallerySession
+    };
+}
+
+function clearGalleryObjectUrls(){
+    galleryObjectUrls.forEach(url => URL.revokeObjectURL(url));
+    galleryObjectUrls = [];
+}
+
+function showLockedAlbum(){
+    albumLock.style.display = "";
+    albumPrivate.classList.remove("open");
+    gallerySession = "";
+    sessionStorage.removeItem(SESSION_KEY);
+    clearGalleryObjectUrls();
+}
+
+function showPrivateAlbum(){
+    albumLock.style.display = "none";
+    albumPrivate.classList.add("open");
+}
+
+async function loginToGallery(){
+    const password = galleryPassword.value;
+
+    if(!password){
+        setLoginStatus("Inserisci la password.", "error");
+        return;
+    }
+
+    galleryLogin.disabled = true;
+    setLoginStatus("Controllo password…");
+
+    try{
+        const response = await fetch(PHOTO_API + "/login", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({ password })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if(!response.ok || !data.token){
+            throw new Error(data.error || "Password non valida.");
+        }
+
+        gallerySession = data.token;
+        sessionStorage.setItem(SESSION_KEY, gallerySession);
+        galleryPassword.value = "";
+
+        setLoginStatus("");
+        showPrivateAlbum();
+        await loadPartyPhotos();
+
+    }catch(error){
+        setLoginStatus(
+            error.message || "Accesso non riuscito.",
+            "error"
+        );
+    }finally{
+        galleryLogin.disabled = false;
+    }
+}
+
+async function fetchPrivateImage(name){
+    const response = await fetch(
+        PHOTO_API + "/image?name=" + encodeURIComponent(name),
+        {
+            method:"GET",
+            headers:authHeaders(),
+            cache:"no-store"
+        }
+    );
+
+    if(response.status === 401){
+        throw new Error("SESSION_EXPIRED");
+    }
+
+    if(!response.ok){
+        throw new Error("Impossibile caricare una foto.");
+    }
+
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    galleryObjectUrls.push(objectUrl);
+
+    return objectUrl;
 }
 
 async function loadPartyPhotos(){
-    if(PHOTO_API.includes("INSERISCI-QUI")){
-        partyGallery.innerHTML = `
-            <div class="party-gallery-empty">
-                L'album sarà attivo appena colleghiamo il servizio di caricamento.
-            </div>
-        `;
-        return;
-    }
+    if(!gallerySession) return;
+
+    partyGallery.innerHTML = `
+        <div class="party-gallery-empty">
+            Caricamento delle foto…
+        </div>
+    `;
+
+    clearGalleryObjectUrls();
 
     try{
         const response = await fetch(PHOTO_API + "/images", {
             method:"GET",
+            headers:authHeaders(),
             cache:"no-store"
         });
 
-        if(!response.ok){
-            throw new Error("Impossibile caricare l'album.");
+        if(response.status === 401){
+            throw new Error("SESSION_EXPIRED");
         }
 
-        const photos = await response.json();
+        const photos = await response.json().catch(() => []);
+
+        if(!response.ok){
+            throw new Error(
+                photos.error || "Impossibile caricare l'album."
+            );
+        }
 
         if(!Array.isArray(photos) || photos.length === 0){
             partyGallery.innerHTML = `
@@ -994,17 +1204,33 @@ async function loadPartyPhotos(){
             return;
         }
 
-        partyGallery.innerHTML = photos.map(photo => `
-            <article class="party-photo">
-                <img
-                    src="${escapeHtml(photo.url)}"
-                    alt="Foto condivisa durante la festa di laurea"
-                    loading="lazy"
-                >
-            </article>
-        `).join("");
+        partyGallery.innerHTML = "";
+
+        for(const photo of photos){
+            const url = await fetchPrivateImage(photo.name);
+
+            const article = document.createElement("article");
+            article.className = "party-photo";
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = "Foto condivisa durante la festa di laurea";
+            img.loading = "lazy";
+
+            article.appendChild(img);
+            partyGallery.appendChild(article);
+        }
 
     }catch(error){
+        if(error.message === "SESSION_EXPIRED"){
+            setLoginStatus(
+                "La sessione è scaduta. Inserisci di nuovo la password.",
+                "error"
+            );
+            showLockedAlbum();
+            return;
+        }
+
         partyGallery.innerHTML = `
             <div class="party-gallery-empty">
                 In questo momento non riesco a caricare le foto.
@@ -1013,27 +1239,38 @@ async function loadPartyPhotos(){
     }
 }
 
-photoInput.addEventListener("change", async () => {
-    const file = photoInput.files && photoInput.files[0];
-    if(!file) return;
+galleryLogin.addEventListener("click", loginToGallery);
 
-    if(PHOTO_API.includes("INSERISCI-QUI")){
-        setUploadStatus(
-            "Prima dobbiamo collegare il servizio di caricamento.",
-            "error"
-        );
-        photoInput.value = "";
+galleryPassword.addEventListener("keydown", event => {
+    if(event.key === "Enter"){
+        loginToGallery();
+    }
+});
+
+galleryLogout.addEventListener("click", () => {
+    showLockedAlbum();
+    setLoginStatus("Sei uscito dall'album.", "success");
+});
+
+partyPhotoInput.addEventListener("change", async () => {
+    const file = partyPhotoInput.files && partyPhotoInput.files[0];
+
+    if(!file || !gallerySession){
         return;
     }
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
 
     if(!allowedTypes.includes(file.type)){
         setUploadStatus(
             "Formato non supportato. Usa JPG, PNG oppure WEBP.",
             "error"
         );
-        photoInput.value = "";
+        partyPhotoInput.value = "";
         return;
     }
 
@@ -1044,12 +1281,10 @@ photoInput.addEventListener("change", async () => {
             "La foto è troppo grande. Il limite è 8 MB.",
             "error"
         );
-        photoInput.value = "";
+        partyPhotoInput.value = "";
         return;
     }
 
-    uploadLabel.style.pointerEvents = "none";
-    uploadLabel.style.opacity = ".6";
     setUploadStatus("Caricamento della foto…");
 
     try{
@@ -1058,13 +1293,20 @@ photoInput.addEventListener("change", async () => {
 
         const response = await fetch(PHOTO_API + "/upload", {
             method:"POST",
+            headers:authHeaders(),
             body:formData
         });
+
+        if(response.status === 401){
+            throw new Error("SESSION_EXPIRED");
+        }
 
         const data = await response.json().catch(() => ({}));
 
         if(!response.ok){
-            throw new Error(data.error || "Caricamento non riuscito.");
+            throw new Error(
+                data.error || "Caricamento non riuscito."
+            );
         }
 
         setUploadStatus(
@@ -1072,25 +1314,33 @@ photoInput.addEventListener("change", async () => {
             "success"
         );
 
-        photoInput.value = "";
+        partyPhotoInput.value = "";
         await loadPartyPhotos();
 
-        setTimeout(() => {
-            partyGallery.scrollTo({ left:0, behavior:"smooth" });
-        }, 250);
-
     }catch(error){
+        if(error.message === "SESSION_EXPIRED"){
+            setUploadStatus("");
+            setLoginStatus(
+                "La sessione è scaduta. Inserisci di nuovo la password.",
+                "error"
+            );
+            showLockedAlbum();
+            return;
+        }
+
         setUploadStatus(
             error.message || "Caricamento non riuscito.",
             "error"
         );
-    }finally{
-        uploadLabel.style.pointerEvents = "";
-        uploadLabel.style.opacity = "";
     }
 });
 
-loadPartyPhotos();
+/* Se la scheda è ancora aperta e la sessione esiste,
+   prova a riaprire automaticamente l'album. */
+if(gallerySession){
+    showPrivateAlbum();
+    loadPartyPhotos();
+}
 
 </script>
 
