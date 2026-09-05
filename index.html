@@ -37,79 +37,37 @@ body{
     overflow-x:hidden;
 }
 
-body.intro-open{overflow:hidden}
-
-/* INTRO */
-.intro{
-    position:fixed;
-    inset:0;
-    z-index:99999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    background:
-        radial-gradient(circle at center, rgba(181,35,50,.18), transparent 45%),
-        linear-gradient(145deg,#fbf7ef,#f3e7cf);
-    transition:opacity .9s ease, visibility .9s ease;
-}
-
-.intro.hide{
-    opacity:0;
-    visibility:hidden;
-}
-
-.intro-inner{
-    text-align:center;
-    max-width:620px;
-    animation:introIn 1s ease both;
-}
-
-.intro-laurel{
-    font-size:50px;
-    letter-spacing:8px;
-    margin-bottom:18px;
-}
-
-.intro-date{
-    color:var(--rosso);
-    text-transform:uppercase;
-    letter-spacing:4px;
-    font-weight:700;
-    font-size:13px;
-}
-
-.intro h2{
-    font-family:"Cormorant Garamond",serif;
-    font-size:clamp(44px,8vw,82px);
-    line-height:.95;
-    margin:16px 0 14px;
-    color:var(--rosso);
-}
-
-.intro p{
-    margin:0;
-    color:var(--muted);
-    font-size:17px;
-}
-
-@keyframes introIn{
-    from{opacity:0;transform:translateY(18px) scale(.98)}
-    to{opacity:1;transform:translateY(0) scale(1)}
+to{opacity:1;transform:translateY(0) scale(1)}
 }
 
 /* CORIANDOLI */
-#confetti-canvas{
+#confetti-layer{
     position:fixed;
     inset:0;
-    width:100%;
-    height:100%;
     pointer-events:none;
     z-index:9999;
+    overflow:hidden;
+}
+
+.confetti{
+    position:absolute;
+    top:-24px;
+    opacity:.95;
+    border-radius:2px;
+    will-change:transform;
+    animation:confettiFall linear forwards;
+}
+
+@keyframes confettiFall{
+    from{
+        transform:translate3d(0,-30px,0);
+    }
+    to{
+        transform:translate3d(var(--drift),110vh,0);
+    }
 }
 
 /* PAGINA */
-
 .page{
     width:100%;
     max-width:900px;
@@ -429,20 +387,9 @@ footer{
 </style>
 </head>
 
-<body class="intro-open">
-
-<!-- INTRO -->
-<div class="intro" id="intro">
-    <div class="intro-inner">
-        <div class="intro-laurel">🌿 🎓 🌿</div>
-        <div class="intro-date">18 Novembre 2026</div>
-        <h2>Un nuovo capitolo ha inizio</h2>
-        <p>Un piccolo ricordo di un giorno che resterà per sempre.</p>
-    </div>
-</div>
-
+<body>
 <!-- CORIANDOLI -->
-<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+<div id="confetti-layer"></div>
 
 <div class="page">
 
@@ -567,23 +514,7 @@ footer{
 </div>
 
 <script>
-/* INTRO */
-const intro = document.getElementById("intro");
-
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        intro.classList.add("hide");
-        document.body.classList.remove("intro-open");
-        launchConfetti();
-    }, 2300);
-});
-
-/* CORIANDOLI - CADUTA VERTICALE NATURALE, SENZA ROTAZIONE */
-const confettiCanvas = document.getElementById("confetti-canvas");
-const confettiCtx = confettiCanvas.getContext("2d");
-
-let confettiPieces = [];
-let confettiAnimationId = null;
+const confettiLayer = document.getElementById("confetti-layer");
 
 const confettiColors = [
     "#8b1e2d",
@@ -593,126 +524,38 @@ const confettiColors = [
     "#ffffff"
 ];
 
-function resizeConfettiCanvas(){
-    const dpr = window.devicePixelRatio || 1;
-
-    confettiCanvas.width = Math.round(window.innerWidth * dpr);
-    confettiCanvas.height = Math.round(window.innerHeight * dpr);
-
-    confettiCanvas.style.width = window.innerWidth + "px";
-    confettiCanvas.style.height = window.innerHeight + "px";
-
-    confettiCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-
-window.addEventListener("resize", resizeConfettiCanvas);
-resizeConfettiCanvas();
-
-function createConfettiPiece(){
-    return {
-        x: Math.random() * window.innerWidth,
-        y: -20 - Math.random() * 260,
-
-        // Leggerissima deriva laterale costante.
-        vx: (Math.random() - 0.5) * 0.35,
-
-        // Velocità di caduta.
-        vy: 1.4 + Math.random() * 1.8,
-        gravity: 0.012 + Math.random() * 0.012,
-
-        width: 5 + Math.random() * 6,
-        height: 9 + Math.random() * 8,
-
-        // Piccola oscillazione tipo aria, NON rotatoria.
-        swayPhase: Math.random() * Math.PI * 2,
-        swaySpeed: 0.018 + Math.random() * 0.012,
-        swayAmount: 0.08 + Math.random() * 0.14,
-
-        color: confettiColors[
-            Math.floor(Math.random() * confettiColors.length)
-        ],
-
-        opacity: 0.95,
-        age: 0,
-        delay: Math.floor(Math.random() * 70)
-    };
-}
-
 function launchConfetti(){
-    if(confettiAnimationId){
-        cancelAnimationFrame(confettiAnimationId);
-    }
+    if(!confettiLayer) return;
 
-    confettiPieces = [];
+    for(let i = 0; i < 110; i++){
+        const piece = document.createElement("div");
+        piece.className = "confetti";
 
-    for(let i = 0; i < 115; i++){
-        confettiPieces.push(createConfettiPiece());
-    }
+        const width = 5 + Math.random() * 6;
+        const height = 9 + Math.random() * 8;
+        const drift = -28 + Math.random() * 56;
 
-    animateConfetti();
-}
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.width = width + "px";
+        piece.style.height = height + "px";
+        piece.style.backgroundColor =
+            confettiColors[Math.floor(Math.random() * confettiColors.length)];
 
-function animateConfetti(){
-    confettiCtx.clearRect(
-        0,
-        0,
-        window.innerWidth,
-        window.innerHeight
-    );
+        piece.style.setProperty("--drift", drift + "px");
+        piece.style.animationDuration = (4.2 + Math.random() * 2.6) + "s";
+        piece.style.animationDelay = (Math.random() * 1.2) + "s";
 
-    let active = false;
+        confettiLayer.appendChild(piece);
 
-    for(const piece of confettiPieces){
-        if(piece.delay > 0){
-            piece.delay--;
-            active = true;
-            continue;
-        }
-
-        piece.age++;
-        piece.vy += piece.gravity;
-
-        // Solo una lieve ondulazione orizzontale.
-        const breeze =
-            Math.sin(piece.swayPhase + piece.age * piece.swaySpeed)
-            * piece.swayAmount;
-
-        piece.x += piece.vx + breeze;
-        piece.y += piece.vy;
-
-        if(piece.y > window.innerHeight * 0.90){
-            piece.opacity -= 0.025;
-        }
-
-        if(piece.opacity > 0 && piece.y < window.innerHeight + 40){
-            active = true;
-        }
-
-        confettiCtx.globalAlpha = Math.max(piece.opacity, 0);
-        confettiCtx.fillStyle = piece.color;
-
-        // Nessuna rotate(): il coriandolo rimane sempre dritto.
-        confettiCtx.fillRect(
-            piece.x - piece.width / 2,
-            piece.y - piece.height / 2,
-            piece.width,
-            piece.height
-        );
-    }
-
-    confettiCtx.globalAlpha = 1;
-
-    if(active){
-        confettiAnimationId = requestAnimationFrame(animateConfetti);
-    }else{
-        confettiCtx.clearRect(
-            0,
-            0,
-            window.innerWidth,
-            window.innerHeight
-        );
+        setTimeout(() => {
+            piece.remove();
+        }, 8000);
     }
 }
+
+window.addEventListener("load", () => {
+    setTimeout(launchConfetti, 250);
+});
 </script>
 
 </body>
